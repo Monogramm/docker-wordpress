@@ -3,7 +3,7 @@ FROM wordpress:4.9-php5.6-fpm
 LABEL maintainer="mb.mathieu.brunot@gmail.com"
 
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y tidy csstidy  && \
+    apt-get install --no-install-recommends -y tidy csstidy bzip2 && \
     mkdir -p /usr/src/php/ext && \
     # Install needed php extensions: memcached
     #
