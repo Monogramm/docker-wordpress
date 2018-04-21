@@ -16,7 +16,7 @@ variants=(
 	fpm
 )
 
-min_version='4.6'
+min_version='4.9'
 
 
 # version_greater_or_equal A B returns whether A >= B
