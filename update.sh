@@ -11,6 +11,11 @@ declare -A base=(
 	[fpm]='debian'
 )
 
+declare -A pecl_versions=(
+	[APCu]='5.1.11'
+	[memcached]='3.0.4'
+)
+
 variants=(
 	apache
 	fpm
@@ -66,6 +71,8 @@ for latest in "${latests[@]}"; do
 					s/%%VARIANT%%/'"$variant"'/g;
 					s/%%VERSION%%/'"$latest"'/g;
 					s/%%CMD%%/'"${cmd[$variant]}"'/g;
+					s/%%APCU_VERSION%%/'"${pecl_versions[APCu]}"'/g;
+					s/%%MEMCACHED_VERSION%%/'"${pecl_versions[memcached]}"'/g;
 				' "$dir/Dockerfile"
 
 				travisEnv='\n    - VERSION='"$version"' PHP_VERSION='"$php_version"' VARIANT='"$variant$travisEnv"
