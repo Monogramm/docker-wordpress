@@ -11,9 +11,37 @@ RUN apt-get update && \
 		zip \
 	&& \
     mkdir -p /usr/src/php/ext && \
-    # Install needed php extensions: memcached
+    # Install needed php extensions
     #
-    apt-get install -y libmemcached-dev && \
+    apt-get install -y \
+        libcurl4-openssl-dev \
+        libfreetype6-dev \
+        libicu-dev \
+        libjpeg-dev \
+        libldap2-dev \
+        libmcrypt-dev \
+        libmemcached-dev \
+        libpng12-dev \
+        libpq-dev \
+        libxml2-dev \
+        libz-dev \
+    && \
+    debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)" && \
+    docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr && \
+    docker-php-ext-configure ldap --with-libdir="lib/$debMultiarch" && \
+    docker-php-ext-install \
+        exif \
+        gd \
+        intl \
+        ldap \
+        mbstring \
+        mcrypt \
+        mysqli \
+        opcache \
+        pcntl \
+        pdo_mysql \
+        zip \
+    && \
     pecl install \
         APCu-5.1.11 \
         memcached-3.0.4 \
@@ -22,20 +50,6 @@ RUN apt-get update && \
         apcu \
         memcached \
     ; \
-    # Install needed php extensions: zip
-    #
-    apt-get install -y libz-dev && \
-    curl -o zip.tgz -SL http://pecl.php.net/get/zip-1.15.1.tgz && \
-        tar -xf zip.tgz -C /usr/src/php/ext/ && \
-        rm zip.tgz && \
-        mv /usr/src/php/ext/zip-1.15.1 /usr/src/php/ext/zip && \
-    docker-php-ext-install zip && \
-    # Install needed php extensions: ldap
-    #
-    apt-get install libldap2-dev -y && \
-	debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)" && \
-	docker-php-ext-configure ldap --with-libdir="lib/$debMultiarch" && \
-    docker-php-ext-install ldap && \
     # Install needed wordpress extensions: WP-FFPC
     #
     cd /usr/src/wordpress/wp-content/plugins && \
