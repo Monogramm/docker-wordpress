@@ -7,7 +7,7 @@ RUN apt-get update && \
     mkdir -p /usr/src/php/ext && \
     # Install needed php extensions: memcached
     #
-    apt-get install -y libpq-dev libmemcached-dev && \
+    apt-get install -y libpq-dev libmemcached-dev zlib1g-dev && \
     curl -o memcached.tgz -SL http://pecl.php.net/get/memcached-3.0.3.tgz && \
         tar -xf memcached.tgz -C /usr/src/php/ext/ && \
         echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini && \
