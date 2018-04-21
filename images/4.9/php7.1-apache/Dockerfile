@@ -3,7 +3,13 @@ FROM wordpress:4.9-php7.1-apache
 LABEL maintainer="mb.mathieu.brunot@gmail.com"
 
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y tidy csstidy bzip2 && \
+    apt-get install --no-install-recommends -y \
+		bzip2 \
+		csstidy \
+		tidy \
+		unzip \
+		zip \
+	&& \
     mkdir -p /usr/src/php/ext && \
     # Install needed php extensions: memcached
     #
