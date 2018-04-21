@@ -1,0 +1,62 @@
+dist: trusty
+sudo: required
+
+services: docker
+
+language: bash
+
+branches:
+  only:
+    - master
+
+before_script:
+  - env | sort
+  - name="wordpress"
+  - image="monogramm/docker-wordpress:${VERSION}${PHP_VERSION:+-$PHP_VERSION}${VARIANT:+-$VARIANT}"
+  - dir="images/${VERSION}/php${PHP_VERSION}-${VARIANT}"
+
+script:
+  - travis_retry docker build -t "$image" "$dir"
+
+after_script:
+  - docker images
+  - docker run --name "$name" -d "$image" "$dir"
+  - docker ps
+  - docker logs "$name"
+
+notifications:
+  email: false
+
+env: # Environments
+    - VERSION=4.6 PHP_VERSION=7.2 VARIANT=fpm
+    - VERSION=4.6 PHP_VERSION=7.2 VARIANT=apache
+    - VERSION=4.6 PHP_VERSION=7.1 VARIANT=fpm
+    - VERSION=4.6 PHP_VERSION=7.1 VARIANT=apache
+    - VERSION=4.6 PHP_VERSION=7.0 VARIANT=fpm
+    - VERSION=4.6 PHP_VERSION=7.0 VARIANT=apache
+    - VERSION=4.6 PHP_VERSION=5.6 VARIANT=fpm
+    - VERSION=4.6 PHP_VERSION=5.6 VARIANT=apache
+    - VERSION=4.7 PHP_VERSION=7.2 VARIANT=fpm
+    - VERSION=4.7 PHP_VERSION=7.2 VARIANT=apache
+    - VERSION=4.7 PHP_VERSION=7.1 VARIANT=fpm
+    - VERSION=4.7 PHP_VERSION=7.1 VARIANT=apache
+    - VERSION=4.7 PHP_VERSION=7.0 VARIANT=fpm
+    - VERSION=4.7 PHP_VERSION=7.0 VARIANT=apache
+    - VERSION=4.7 PHP_VERSION=5.6 VARIANT=fpm
+    - VERSION=4.7 PHP_VERSION=5.6 VARIANT=apache
+    - VERSION=4.8 PHP_VERSION=7.2 VARIANT=fpm
+    - VERSION=4.8 PHP_VERSION=7.2 VARIANT=apache
+    - VERSION=4.8 PHP_VERSION=7.1 VARIANT=fpm
+    - VERSION=4.8 PHP_VERSION=7.1 VARIANT=apache
+    - VERSION=4.8 PHP_VERSION=7.0 VARIANT=fpm
+    - VERSION=4.8 PHP_VERSION=7.0 VARIANT=apache
+    - VERSION=4.8 PHP_VERSION=5.6 VARIANT=fpm
+    - VERSION=4.8 PHP_VERSION=5.6 VARIANT=apache
+    - VERSION=4.9 PHP_VERSION=7.2 VARIANT=fpm
+    - VERSION=4.9 PHP_VERSION=7.2 VARIANT=apache
+    - VERSION=4.9 PHP_VERSION=7.1 VARIANT=fpm
+    - VERSION=4.9 PHP_VERSION=7.1 VARIANT=apache
+    - VERSION=4.9 PHP_VERSION=7.0 VARIANT=fpm
+    - VERSION=4.9 PHP_VERSION=7.0 VARIANT=apache
+    - VERSION=4.9 PHP_VERSION=5.6 VARIANT=fpm
+    - VERSION=4.9 PHP_VERSION=5.6 VARIANT=apache
