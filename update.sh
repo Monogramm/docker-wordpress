@@ -1,6 +1,15 @@
 #!/bin/bash
 set -eo pipefail
 
+
+cliVersion="$(
+	git ls-remote --tags 'https://github.com/wp-cli/wp-cli.git' \
+		| sed -r 's!^[^\t]+\trefs/tags/v([^^]+).*!\1!g' \
+		| tail -1
+)"
+cliSha512="$(curl -fsSL "https://github.com/wp-cli/wp-cli/releases/download/v${cliVersion}/wp-cli-${cliVersion}.phar.sha512")"
+
+
 declare -A cmd=(
 	[apache]='apache2-foreground'
 	[fpm]='php-fpm'
@@ -73,6 +82,8 @@ for latest in "${latests[@]}"; do
 					s/%%CMD%%/'"${cmd[$variant]}"'/g;
 					s/%%APCU_VERSION%%/'"${pecl_versions[APCu]}"'/g;
 					s/%%MEMCACHED_VERSION%%/'"${pecl_versions[memcached]}"'/g;
+					s/%%WORDPRESS_CLI_VERSION%%/'"${cliVersion}"'/g;
+					s/%%WORDPRESS_CLI_SHA512%%/'"${cliSha512}"'/g;
 				' "$dir/Dockerfile"
 
 				travisEnv='\n    - VERSION='"$version"' PHP_VERSION='"$php_version"' VARIANT='"$variant$travisEnv"
