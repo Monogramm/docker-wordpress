@@ -106,8 +106,6 @@ RUN set -ex; \
 	\
 	wp --allow-root --version
 
-USER www-data
-
 # ENTRYPOINT resets CMD
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
