@@ -20,11 +20,9 @@ RUN set -ex; \
         libfreetype6-dev \
         libicu-dev \
         libjpeg-dev \
-        libjpeg-turbo-dev \
         libldap2-dev \
         libmcrypt-dev \
         libmemcached-dev \
-        libpng-dev \
         libpng12-dev \
         libpq-dev \
         libxml2-dev \
