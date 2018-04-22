@@ -30,8 +30,6 @@ https://hub.docker.com/r/monogramm/docker-wordpress/
     * `4.9.5-php7.1-fpm` `4.9-php7.1-fpm` `4-php7.1-fpm` `php7.1-fpm`
     * `4.9.5-php7.0-apache` `4.9.5-php7.0` `4.9-php7.0-apache` `4.9-php7.0` `4-php7.0-apache` `4-php7.0` `php7.0-apache` `php7.0`
     * `4.9.5-php7.0-fpm` `4.9-php7.0-fpm` `4-php7.0-fpm` `php7.0-fpm`
-    * `4.9.5-php5.6-apache` `4.9.5-php5.6` `4.9-php5.6-apache` `4.9-php5.6` `4-php5.6-apache` `4-php5.6` `php5.6-apache` `php5.6`
-    * `4.9.5-php5.6-fpm` `4.9-php5.6-fpm` `4-php5.6-fpm` `php5.6-fpm`
 
 ## How to run this image ?
 

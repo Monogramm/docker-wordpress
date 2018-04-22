@@ -1,6 +1,18 @@
 #!/bin/bash
 set -eo pipefail
 
+
+#cliVersion="$(
+#	git ls-remote --tags 'https://github.com/wp-cli/wp-cli.git' \
+#		| sed -r 's!^[^\t]+\trefs/tags/v([^^]+).*!\1!g' \
+#		| tail -1
+#)"
+# XXX The GPG for latest version (2018-04-21 1.5.1) does not exist
+# Hardcode the version until issue is fixed
+cliVersion=1.5.0
+cliSha512="$(curl -fsSL "https://github.com/wp-cli/wp-cli/releases/download/v${cliVersion}/wp-cli-${cliVersion}.phar.sha512")"
+
+
 declare -A cmd=(
 	[apache]='apache2-foreground'
 	[fpm]='php-fpm'
@@ -29,7 +41,7 @@ function version_greater_or_equal() {
 	[[ "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1" || "$1" == "$2" ]];
 }
 
-php_versions=( "5.6" "7.0" "7.1" "7.2" )
+php_versions=( "7.0" "7.1" "7.2" )
 
 dockerRepo="monogramm/docker-wordpress"
 # Retrieve automatically the latest versions
@@ -73,6 +85,8 @@ for latest in "${latests[@]}"; do
 					s/%%CMD%%/'"${cmd[$variant]}"'/g;
 					s/%%APCU_VERSION%%/'"${pecl_versions[APCu]}"'/g;
 					s/%%MEMCACHED_VERSION%%/'"${pecl_versions[memcached]}"'/g;
+					s/%%WORDPRESS_CLI_VERSION%%/'"${cliVersion}"'/g;
+					s/%%WORDPRESS_CLI_SHA512%%/'"${cliSha512}"'/g;
 				' "$dir/Dockerfile"
 
 				travisEnv='\n    - VERSION='"$version"' PHP_VERSION='"$php_version"' VARIANT='"$variant$travisEnv"
