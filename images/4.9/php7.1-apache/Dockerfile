@@ -23,7 +23,7 @@ RUN set -ex; \
         libldap2-dev \
         libmcrypt-dev \
         libmemcached-dev \
-        libpng12-dev \
+        libpng-dev \
         libpq-dev \
         libxml2-dev \
         libz-dev \
@@ -45,13 +45,13 @@ RUN set -ex; \
         zip \
     && \
     pecl install \
-        APCu-5.1.11 \
+        apcu-5.1.11 \
         memcached-3.0.4 \
-    ; \	
+    && \	
     docker-php-ext-enable \
         apcu \
         memcached \
-    ; \
+    && \
     # Install needed wordpress extensions: WP-FFPC
     #
     cd /usr/src/wordpress/wp-content/plugins && \
