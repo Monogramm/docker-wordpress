@@ -11,7 +11,7 @@
 
 Docker image for Wordpress.
 
-Provides full database configuration, memcached and LDAP support.
+Provides full database configuration, memcached and LDAP support and [WP-CLI](https://developer.wordpress.org/cli/commands/).
 
 ## What is Wordpress ?
 
@@ -238,13 +238,10 @@ Because the `docker-compose` levegare persistent volume in the Wordpress root di
 
 ### Interactive
 
-Open a terminal session in the `cli` container.
+Open a terminal session in the `wordpress` container.
 
 ```bash
-WP_HTML=
-docker run --rm -it \
-  -v "$WP_HTML":/var/www/html \
-  -ti wordpress:cli bash
+docker exec --user www-data wordpress bash
 ``` 
 
 Run the following commands to update the application engine, the plugins and themes.
@@ -260,10 +257,7 @@ wp theme update --all
 Run the following commands
 
 ```bash
-WP_HTML=
-docker run --rm \
-  -v "$WP_HTML":/tmp/docker-mailserver \
-  -ti wordpress:cli bash -c 'wp core update && wp plugins update --all && wp theme update --all'
+docker exec --user www-data wordpress bash -c 'wp core update && wp plugins update --all && wp theme update --all'
 ```
 
 

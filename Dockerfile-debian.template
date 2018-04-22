@@ -48,25 +48,7 @@ RUN set -ex; \
     && \	
     docker-php-ext-enable \
         apcu \
-        memcached \
-    && \
-    # Install needed wordpress extensions: WP-FFPC
-    #
-    cd /usr/src/wordpress/wp-content/plugins && \
-    curl -o wp-ffpc.zip -L https://downloads.wordpress.org/plugin/wp-ffpc.zip && \
-        unzip -o wp-ffpc.zip && \
-        chown -R www-data:www-data wp-ffpc && \
-        rm -f wp-ffpc.zip && \
-    # Enable Wordpress Caching
-    cd /usr/src/wordpress && ls -l && \
-    sed -ri -e "s#(<\?php)#\\1\ndefine('WP_CACHE', 'true');#g" wp-config-sample.php && \
-    # Install needed wordpress extensions: Simple-Ldap-Login
-    #
-    cd /usr/src/wordpress/wp-content/plugins && \
-    curl -o simple-ldap-login.zip -L https://downloads.wordpress.org/plugin/simple-ldap-login.1.6.0.zip && \
-        unzip -o simple-ldap-login.zip && \
-        chown -R www-data:www-data simple-ldap-login && \
-        rm -f simple-ldap-login.zip
+        memcached
 
 
 # pub   2048R/2F6B6B7F 2016-01-07
