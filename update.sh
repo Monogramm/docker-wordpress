@@ -41,7 +41,7 @@ function version_greater_or_equal() {
 	[[ "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1" || "$1" == "$2" ]];
 }
 
-php_versions=( "5.6" "7.0" "7.1" "7.2" )
+php_versions=( "7.0" "7.1" "7.2" )
 
 dockerRepo="monogramm/docker-wordpress"
 # Retrieve automatically the latest versions

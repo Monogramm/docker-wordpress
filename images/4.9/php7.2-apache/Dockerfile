@@ -85,6 +85,7 @@ RUN set -ex; \
     # Install wp-cli dependencies
     #
     apt-get install --no-install-recommends -y \
+        dirmngr \
 		gnupg \
 		less \
 		mysql-client \
