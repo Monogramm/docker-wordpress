@@ -13,7 +13,7 @@ RUN set -ex; \
 		zip \
 	&& \
     mkdir -p /usr/src/php/ext && \
-    # Install needed php extensions
+    # Install needed libraries
     #
     apt-get install -y \
         libcurl4-openssl-dev \
@@ -27,6 +27,8 @@ RUN set -ex; \
         libxml2-dev \
         libz-dev \
     && \
+    # Install needed php extensions
+    #
     debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)" && \
     docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr && \
     docker-php-ext-configure ldap --with-libdir="lib/$debMultiarch" && \
@@ -48,7 +50,10 @@ RUN set -ex; \
     && \	
     docker-php-ext-enable \
         apcu \
-        memcached
+        memcached \
+    # Edit permissions of web directories
+    #
+    && chown www-data:www-data /var/www /var/www/html
 
 
 # pub   2048R/2F6B6B7F 2016-01-07
