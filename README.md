@@ -232,6 +232,23 @@ Set the following minimal configuration options:
 * **Backend Settings/Authentication: password**: _Empty_
 * **Backend Settings/Enable memcached binary mode**: **Activated**
 
+You can also open a terminal session in the `wordpress` container to edit the config.
+
+```bash
+wordpress_command() {
+    docker exec -it --user www-data wordpress wp "$@"
+}
+
+WPFFPC_SETTINGS={
+WPFFPC_SETTINGS=$"$WPFFPC_SETTINGS\"wordpress.domain.com\": {"
+WPFFPC_SETTINGS=$"$WPFFPC_SETTINGS\"cache_type\": \"memcached\""
+WPFFPC_SETTINGS=$"$WPFFPC_SETTINGS, \"hosts\": \"memcached:11211\""
+WPFFPC_SETTINGS=$"$WPFFPC_SETTINGS, \"memcached_binary\": \"1\""
+WPFFPC_SETTINGS=$"$WPFFPC_SETTINGS}"
+WPFFPC_SETTINGS="$WPFFPC_SETTINGS}"
+
+wordpress_command option update wp-ffpc-global "$WPFFPC_SETTINGS" --format=json
+``` 
 
 # Update to a newer version
 Because the `docker-compose` levegare persistent volume in the Wordpress root directory, its required to open a session in a `cli` container in order to run the command `wp core update`.
