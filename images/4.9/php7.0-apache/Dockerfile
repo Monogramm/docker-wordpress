@@ -51,6 +51,16 @@ RUN set -ex; \
     docker-php-ext-enable \
         apcu \
         memcached \
+    # Variant extras
+    #
+    %%VARIANT_EXTRAS%%%%VARIANT_EXTRAS%% a2enmod headers remoteip ;\
+    {\
+     echo RemoteIPHeader X-Real-IP ;\
+     echo RemoteIPTrustedProxy 10.0.0.0/8 ;\
+     echo RemoteIPTrustedProxy 172.16.0.0/12 ;\
+     echo RemoteIPTrustedProxy 192.168.0.0/16 ;\
+    } > /etc/apache2/conf-available/remoteip.conf;\
+    a2enconf remoteip \
     # Edit permissions of web directories
     #
     && chown www-data:www-data /var/www /var/www/html

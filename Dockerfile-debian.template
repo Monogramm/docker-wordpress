@@ -51,6 +51,9 @@ RUN set -ex; \
     docker-php-ext-enable \
         apcu \
         memcached \
+    # Variant extras
+    #
+    %%VARIANT_EXTRAS%% \
     # Edit permissions of web directories
     #
     && chown www-data:www-data /var/www /var/www/html

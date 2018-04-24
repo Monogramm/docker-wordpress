@@ -23,6 +23,11 @@ declare -A base=(
 	[fpm]='debian'
 )
 
+declare -A extras=(
+	[apache]='&& a2enmod headers remoteip ;\\\n    {\\\n     echo RemoteIPHeader X-Real-IP ;\\\n     echo RemoteIPTrustedProxy 10.0.0.0/8 ;\\\n     echo RemoteIPTrustedProxy 172.16.0.0/12 ;\\\n     echo RemoteIPTrustedProxy 192.168.0.0/16 ;\\\n    } > /etc/apache2/conf-available/remoteip.conf;\\\n    a2enconf remoteip'
+	[fpm]=''
+)
+
 declare -A pecl_versions=(
 	[APCu]='5.1.11'
 	[memcached]='3.0.4'
@@ -83,6 +88,7 @@ for latest in "${latests[@]}"; do
 					s/%%VARIANT%%/'"$variant"'/g;
 					s/%%VERSION%%/'"$latest"'/g;
 					s/%%CMD%%/'"${cmd[$variant]}"'/g;
+					s|%%VARIANT_EXTRAS%%|'"${extras[$variant]}"'|g;
 					s/%%APCU_VERSION%%/'"${pecl_versions[APCu]}"'/g;
 					s/%%MEMCACHED_VERSION%%/'"${pecl_versions[memcached]}"'/g;
 					s/%%WORDPRESS_CLI_VERSION%%/'"${cliVersion}"'/g;
