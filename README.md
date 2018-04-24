@@ -240,14 +240,14 @@ wordpress_command() {
 }
 
 WPFFPC_SETTINGS={
-WPFFPC_SETTINGS=$"$WPFFPC_SETTINGS\"wordpress.domain.com\": {"
 WPFFPC_SETTINGS=$"$WPFFPC_SETTINGS\"cache_type\": \"memcached\""
 WPFFPC_SETTINGS=$"$WPFFPC_SETTINGS, \"hosts\": \"memcached:11211\""
 WPFFPC_SETTINGS=$"$WPFFPC_SETTINGS, \"memcached_binary\": \"1\""
-WPFFPC_SETTINGS=$"$WPFFPC_SETTINGS}"
+WPFFPC_SETTINGS=$"$WPFFPC_SETTINGS, \"authuser\": \"\""
+WPFFPC_SETTINGS=$"$WPFFPC_SETTINGS, \"authpass\": \"\""
 WPFFPC_SETTINGS="$WPFFPC_SETTINGS}"
 
-wordpress_command option update wp-ffpc-global "$WPFFPC_SETTINGS" --format=json
+wordpress_command option add wp-ffpc "$WPFFPC_SETTINGS" --format=json
 ``` 
 
 # Update to a newer version
