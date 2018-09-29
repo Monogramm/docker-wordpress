@@ -1,6 +1,6 @@
 FROM wordpress:4.9-php7.0-fpm
 
-LABEL maintainer="mb.mathieu.brunot@gmail.com"
+LABEL maintainer="mathieu.brunot at monogramm dot io"
 
 RUN set -ex; \
 	\

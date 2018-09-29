@@ -1,6 +1,6 @@
 FROM wordpress:%%VERSION%%-php%%PHP_VERSION%%-%%VARIANT%%
 
-LABEL maintainer="mb.mathieu.brunot@gmail.com"
+LABEL maintainer="mathieu.brunot at monogramm dot io"
 
 RUN set -ex; \
 	\
