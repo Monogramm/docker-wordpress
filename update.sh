@@ -9,7 +9,7 @@ set -eo pipefail
 #)"
 # XXX The GPG for latest version (2018-04-21 1.5.1) does not exist
 # Hardcode the version until issue is fixed
-cliVersion=1.5.0
+cliVersion=2.0.1
 cliSha512="$(curl -fsSL "https://github.com/wp-cli/wp-cli/releases/download/v${cliVersion}/wp-cli-${cliVersion}.phar.sha512")"
 
 
