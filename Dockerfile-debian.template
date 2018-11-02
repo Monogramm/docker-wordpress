@@ -42,6 +42,7 @@ RUN set -ex; \
         opcache \
         pcntl \
         pdo_mysql \
+        soap \
         zip \
     && \
     pecl install \
