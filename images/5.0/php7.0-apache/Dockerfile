@@ -1,4 +1,4 @@
-FROM wordpress:4.9-php7.0-apache
+FROM wordpress:5.0-php7.0-apache
 
 LABEL maintainer="mathieu.brunot at monogramm dot io"
 
