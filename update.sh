@@ -2,14 +2,11 @@
 set -eo pipefail
 
 
-#cliVersion="$(
-#	git ls-remote --tags 'https://github.com/wp-cli/wp-cli.git' \
-#		| sed -r 's!^[^\t]+\trefs/tags/v([^^]+).*!\1!g' \
-#		| tail -1
-#)"
-# XXX The GPG for latest version (2018-04-21 1.5.1) does not exist
-# Hardcode the version until issue is fixed
-cliVersion=2.0.1
+cliVersion="$(
+	git ls-remote --tags 'https://github.com/wp-cli/wp-cli.git' \
+		| sed -r 's!^[^\t]+\trefs/tags/v([^^]+).*!\1!g' \
+		| tail -1
+)"
 cliSha512="$(curl -fsSL "https://github.com/wp-cli/wp-cli/releases/download/v${cliVersion}/wp-cli-${cliVersion}.phar.sha512")"
 
 
