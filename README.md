@@ -23,20 +23,15 @@ WordPress is open source software you can use to create a beautiful website, blo
 
 https://hub.docker.com/r/monogramm/docker-wordpress/
 
+* Wordpress 5.1
+    * `5.1-apache` `5.1` `apache` `latest`
+    * `5.1-fpm` `fpm`
 * Wordpress 5.0
-    * `5.0.3-php7.2-apache` `5.0.3-apache` `5.0.3-php7.2` `5.0.3` `5.0-php7.2-apache` `5.0-apache` `5.0-php7.2` `5.0` `5-php7.2-apache` `5-apache` `5-php7.2` `5` `php7.2-apache` `apache` `php7.2` `latest`
-    * `5.0.3-php7.2-fpm` `5.0.3-fpm` `5.0-php7.2-fpm` `5.0-fpm` `5-php7.2-fpm` `5-fpm` `php7.2-fpm` `fpm`
-    * `5.0.3-php7.1-apache` `5.0.3-php7.1` `5.0-php7.1-apache` `5.0-php7.1` `5-php7.1-apache` `5-php7.1` `php7.1-apache` `php7.1`
-    * `5.0.3-php7.1-fpm` `5.0-php7.1-fpm` `5-php7.1-fpm` `php7.1-fpm`
-    * `5.0.3-php7.0-apache` `5.0.3-php7.0` `5.0-php7.0-apache` `5.0-php7.0` `5-php7.0-apache` `5-php7.0` `php7.0-apache` `php7.0`
-    * `5.0.3-php7.0-fpm` `5.0-php7.0-fpm` `5-php7.0-fpm` `php7.0-fpm`
+    * `5.0-apache` `5.0`
+    * `5.0-fpm`
 * Wordpress 4.9
-    * `4.9.8-php7.2-apache` `4.9.8-apache` `4.9.8-php7.2` `4.9.8` `4.9-php7.2-apache` `4.9-apache` `4.9-php7.2` `4.9` `4-php7.2-apache` `4-apache` `4-php7.2` `4`
-    * `4.9.8-php7.2-fpm` `4.9.8-fpm` `4.9-php7.2-fpm` `4.9-fpm` `4-php7.2-fpm` `4-fpm`
-    * `4.9.8-php7.1-apache` `4.9.8-php7.1` `4.9-php7.1-apache` `4.9-php7.1` `4-php7.1-apache` `4-php7.1` `php7.1-apache` `php7.1`
-    * `4.9.8-php7.1-fpm` `4.9-php7.1-fpm` `4-php7.1-fpm`
-    * `4.9.8-php7.0-apache` `4.9.8-php7.0` `4.9-php7.0-apache` `4.9-php7.0` `4-php7.0-apache` `4-php7.0`
-    * `4.9.8-php7.0-fpm` `4.9-php7.0-fpm` `4-php7.0-fpm`
+    * `4.9-apache` `4.9`
+    * `4.9-fpm`
 
 ## How to run this image ?
 
