@@ -6,6 +6,8 @@
 [![Build Status](https://travis-ci.org/Monogramm/docker-wordpress.svg)](https://travis-ci.org/Monogramm/docker-wordpress)
 [![Docker Automated buid](https://img.shields.io/docker/build/monogramm/docker-wordpress.svg)](https://hub.docker.com/r/monogramm/docker-wordpress/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/monogramm/docker-wordpress.svg)](https://hub.docker.com/r/monogramm/docker-wordpress/)
+[![](https://images.microbadger.com/badges/version/monogramm/docker-wordpress.svg)](https://microbadger.com/images/monogramm/docker-wordpress)
+[![](https://images.microbadger.com/badges/image/monogramm/docker-wordpress.svg)](https://microbadger.com/images/monogramm/docker-wordpress)
 
 # Wordpress on Docker
 
