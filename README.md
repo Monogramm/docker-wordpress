@@ -9,9 +9,9 @@
 [![](https://images.microbadger.com/badges/version/monogramm/docker-wordpress.svg)](https://microbadger.com/images/monogramm/docker-wordpress)
 [![](https://images.microbadger.com/badges/image/monogramm/docker-wordpress.svg)](https://microbadger.com/images/monogramm/docker-wordpress)
 
-# Wordpress on Docker
+# Wordpress custom Docker
 
-Docker image for Wordpress.
+Custom Docker image for Wordpress.
 
 Provides full database configuration, memcached and LDAP support and [WP-CLI](https://developer.wordpress.org/cli/commands/).
 
