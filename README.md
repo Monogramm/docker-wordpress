@@ -6,10 +6,12 @@
 [![Build Status](https://travis-ci.org/Monogramm/docker-wordpress.svg)](https://travis-ci.org/Monogramm/docker-wordpress)
 [![Docker Automated buid](https://img.shields.io/docker/build/monogramm/docker-wordpress.svg)](https://hub.docker.com/r/monogramm/docker-wordpress/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/monogramm/docker-wordpress.svg)](https://hub.docker.com/r/monogramm/docker-wordpress/)
+[![](https://images.microbadger.com/badges/version/monogramm/docker-wordpress.svg)](https://microbadger.com/images/monogramm/docker-wordpress)
+[![](https://images.microbadger.com/badges/image/monogramm/docker-wordpress.svg)](https://microbadger.com/images/monogramm/docker-wordpress)
 
-# Wordpress on Docker
+# Wordpress custom Docker
 
-Docker image for Wordpress.
+Custom Docker image for Wordpress.
 
 Provides full database configuration, memcached and LDAP support and [WP-CLI](https://developer.wordpress.org/cli/commands/).
 
@@ -123,31 +125,32 @@ volumes:
   wordpress_html:
   wordpress_db:
 
-mariadb:
-    image: mariadb:latest
-    restart: always
-    volumes:
-        - wordpress_db:/var/lib/mysql
-    environment:
-        - "MYSQL_ROOT_PASSWORD="
-        - "MYSQL_PASSWORD="
-        - "MYSQL_DATABASE=wordpress"
-        - "MYSQL_USER=wordpress"
+services:
+    mariadb:
+        image: mariadb:latest
+        restart: always
+        volumes:
+            - wordpress_db:/var/lib/mysql
+        environment:
+            - "MYSQL_ROOT_PASSWORD="
+            - "MYSQL_PASSWORD="
+            - "MYSQL_DATABASE=wordpress"
+            - "MYSQL_USER=wordpress"
 
-wordpress:
-    image: monogramm/docker-wordpress
-    restart: always
-    depends_on:
-        - mariadb
-    ports:
-        - "8080:80"
-    environment:
-        - "WORDPRESS_DB_HOST=mariadb"
-        - "WORDPRESS_DB_NAME=wordpress"
-        - "WORDPRESS_DB_USER=wordpress"
-        - "WORDPRESS_DB_PASSWORD="
-    volumes:
-        - wordpress_html:/var/www/html
+    wordpress:
+        image: monogramm/docker-wordpress
+        restart: always
+        depends_on:
+            - mariadb
+        ports:
+            - "8080:80"
+        environment:
+            - "WORDPRESS_DB_HOST=mariadb"
+            - "WORDPRESS_DB_NAME=wordpress"
+            - "WORDPRESS_DB_USER=wordpress"
+            - "WORDPRESS_DB_PASSWORD="
+        volumes:
+            - wordpress_html:/var/www/html
 ```
 
 Then run all services `docker-compose up -d`. Now, go to http://localhost:8080 to access the new Wordpress installation wizard.
@@ -169,45 +172,46 @@ volumes:
   wordpress_html:
   wordpress_db:
 
-memcached:
-    image: memcached
+services:
+    memcached:
+        image: memcached
 
-mariadb:
-    image: mariadb:latest
-    restart: always
-    volumes:
-        - wordpress_db:/var/lib/mysql
-    environment:
-        - "MYSQL_ROOT_PASSWORD="
-        - "MYSQL_PASSWORD="
-        - "MYSQL_DATABASE=wordpress"
-        - "MYSQL_USER=wordpress"
+    mariadb:
+        image: mariadb:latest
+        restart: always
+        volumes:
+            - wordpress_db:/var/lib/mysql
+        environment:
+            - "MYSQL_ROOT_PASSWORD="
+            - "MYSQL_PASSWORD="
+            - "MYSQL_DATABASE=wordpress"
+            - "MYSQL_USER=wordpress"
 
-wordpress:
-    image: monogramm/docker-wordpress:fpm
-    depends_on:
-        - mariadb
-    ports:
-        - "80:80"
-    environment:
-        - "WORDPRESS_DB_HOST=mariadb"
-        - "WORDPRESS_DB_NAME=wordpress"
-        - "WORDPRESS_DB_USER=wordpress"
-        - "WORDPRESS_DB_PASSWORD="
-    volumes:
-        - wordpress_html:/var/www/html
+    wordpress:
+        image: monogramm/docker-wordpress:fpm
+        depends_on:
+            - mariadb
+        ports:
+            - "9000:9000"
+        environment:
+            - "WORDPRESS_DB_HOST=mariadb"
+            - "WORDPRESS_DB_NAME=wordpress"
+            - "WORDPRESS_DB_USER=wordpress"
+            - "WORDPRESS_DB_PASSWORD="
+        volumes:
+            - wordpress_html:/var/www/html
 
-web:
-    image: nginx
-    ports:
-        - 8080:80
-    links:
-        - wordpress
-    volumes:
-        - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    volumes_from:
-        - wordpress
-    restart: always
+    web:
+        image: nginx
+        ports:
+            - 8080:80
+        links:
+            - wordpress
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf:ro
+        volumes_from:
+            - wordpress
+        restart: always
 ```
 
 In order for this work, you must provide a valid NGinx config. Take a look at [fjudith/docker-wordpress](https://github.com/fjudith/docker-wordpress) to get some sample configuration.
