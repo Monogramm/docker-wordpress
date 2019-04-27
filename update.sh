@@ -46,7 +46,7 @@ function version_greater_or_equal() {
 php_versions=( "7.2" )
 
 dockerRepo="monogramm/docker-wordpress"
-# Retrieve automatically the latest versions
+echo "retrieve automatically the latest versions..."
 latests=( $( curl -fsSL 'https://api.github.com/repos/WordPress/WordPress/tags' |tac|tac| \
 	grep -oE '[[:digit:]]+\.[[:digit:]]+' | \
 	sort -urV ) )
