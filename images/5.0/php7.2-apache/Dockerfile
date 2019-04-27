@@ -1,6 +1,6 @@
 FROM wordpress:5.0-php7.2-apache
 
-LABEL maintainer="mathieu.brunot at monogramm dot io"
+LABEL maintainer="Monogramm maintainers <opensource at monogramm dot io>"
 
 RUN set -ex; \
 	\
