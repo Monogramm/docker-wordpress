@@ -80,7 +80,7 @@ RUN set -ex; \
 		dirmngr \
 		gnupg \
 		less \
-		mysql-client \
+		default-mysql-client \
 	; \
 	\
 	curl -o /usr/local/bin/wp.gpg -fSL "https://github.com/wp-cli/wp-cli/releases/download/v${WORDPRESS_CLI_VERSION}/wp-cli-${WORDPRESS_CLI_VERSION}.phar.gpg"; \

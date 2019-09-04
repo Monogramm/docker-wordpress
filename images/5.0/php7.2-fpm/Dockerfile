@@ -67,8 +67,8 @@ RUN set -ex; \
 # sub   rsa2048 2018-05-31 [E]
 ENV WORDPRESS_CLI_GPG_KEY 63AF7AA15067C05616FDDD88A3A2E8F226F0BC06
 
-ENV WORDPRESS_CLI_VERSION 2.2.0
-ENV WORDPRESS_CLI_SHA512 2103f04a5014d629eaa42755815c9cec6bb489ed7b0ea6e77dedb309e8af098ab902b2f9c6369ae4b7cb8cc1f20fbb4dedcda83eb1d0c34b880fa6e8a3ae249d
+ENV WORDPRESS_CLI_VERSION 2.3.0
+ENV WORDPRESS_CLI_SHA512 fdf1c6e7d33665fc9c6202a91fdebc72be6ebad12949ecf0280765bf24819e7ca2072e6834abd3848bceaae0f7aa1896322c837ae5a5b66dd69b760c310e4a30
 
 WORKDIR /var/www/html
 
@@ -80,7 +80,7 @@ RUN set -ex; \
 		dirmngr \
 		gnupg \
 		less \
-		mysql-client \
+		default-mysql-client \
 	; \
 	\
 	curl -o /usr/local/bin/wp.gpg -fSL "https://github.com/wp-cli/wp-cli/releases/download/v${WORDPRESS_CLI_VERSION}/wp-cli-${WORDPRESS_CLI_VERSION}.phar.gpg"; \
