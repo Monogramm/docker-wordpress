@@ -2,6 +2,10 @@ FROM wordpress:5.2-php7.2-fpm
 
 LABEL maintainer="Monogramm maintainers <opensource at monogramm dot io>"
 
+# Install needed libraries
+# Install needed php extensions
+# Variant extras
+# Edit permissions of web directories
 RUN set -ex; \
 	\
 	apt-get update && \
@@ -13,8 +17,6 @@ RUN set -ex; \
 		zip \
 	&& \
 	mkdir -p /usr/src/php/ext && \
-	# Install needed libraries
-	#
 	apt-get install -y \
 		libcurl4-openssl-dev \
 		libfreetype6-dev \
@@ -27,8 +29,6 @@ RUN set -ex; \
 		libxml2-dev \
 		libz-dev \
 	&& \
-	# Install needed php extensions
-	#
 	debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)" && \
 	docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr && \
 	docker-php-ext-configure ldap --with-libdir="lib/$debMultiarch" && \
@@ -52,11 +52,7 @@ RUN set -ex; \
 	docker-php-ext-enable \
 		apcu \
 		memcached \
-	# Variant extras
-	#
 	 \
-	# Edit permissions of web directories
-	#
 	&& chown www-data:www-data /var/www /var/www/html
 
 
@@ -67,15 +63,15 @@ RUN set -ex; \
 # sub   rsa2048 2018-05-31 [E]
 ENV WORDPRESS_CLI_GPG_KEY 63AF7AA15067C05616FDDD88A3A2E8F226F0BC06
 
-ENV WORDPRESS_CLI_VERSION 2.4.0
-ENV WORDPRESS_CLI_SHA512 4049c7e45e14276a70a41c3b0864be7a6a8cfa8ea65ebac8b184a4f503a91baa1a0d29260d03248bc74aef70729824330fb6b396336172a624332e16f64e37ef
+ARG WORDPRESS_CLI_VERSION=2.4.0 \
+	WORDPRESS_CLI_SHA512=4049c7e45e14276a70a41c3b0864be7a6a8cfa8ea65ebac8b184a4f503a91baa1a0d29260d03248bc74aef70729824330fb6b396336172a624332e16f64e37ef
 
 WORKDIR /var/www/html
 
+# Install wp-cli dependencies
+# Cleanup
 RUN set -ex; \
 	\
-	# Install wp-cli dependencies
-	#
 	apt-get install --no-install-recommends -y \
 		dirmngr \
 		gnupg \
@@ -99,7 +95,6 @@ RUN set -ex; \
 	echo "$WORDPRESS_CLI_SHA512 */usr/local/bin/wp" | sha512sum -c -; \
 	chmod +x /usr/local/bin/wp; \
 	\
-	# Cleanup
 	rm -rf /var/lib/apt/lists/* && \
 	\
 	wp --allow-root --version
