@@ -8,16 +8,18 @@ LABEL maintainer="Monogramm maintainers <opensource at monogramm dot io>"
 # Edit permissions of web directories
 RUN set -ex; \
 	\
-	apt-get update && \
+	apt-get update; \
 	apt-get install --no-install-recommends -y \
 		bzip2 \
 		csstidy \
 		tidy \
 		unzip \
 		zip \
-	&& \
-	mkdir -p /usr/src/php/ext && \
+	; \
+	mkdir -p /usr/src/php/ext; \
 	apt-get install -y \
+		default-mysql-client \
+		less \
 		libcurl4-openssl-dev \
 		libfreetype6-dev \
 		libicu-dev \
@@ -28,10 +30,10 @@ RUN set -ex; \
 		libpq-dev \
 		libxml2-dev \
 		libz-dev \
-	&& \
-	debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)" && \
-	docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr && \
-	docker-php-ext-configure ldap --with-libdir="lib/$debMultiarch" && \
+	; \
+	debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)"; \
+	docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr; \
+	docker-php-ext-configure ldap --with-libdir="lib/$debMultiarch"; \
 	docker-php-ext-install \
 		exif \
 		gd \
@@ -44,11 +46,11 @@ RUN set -ex; \
 		pdo_mysql \
 		soap \
 		zip \
-	&& \
+	; \
 	pecl install \
-		apcu-5.1.11 \
-		memcached-3.0.4 \
-	&& \	
+		apcu-5.1.18 \
+		memcached-3.1.5 \
+	; \	
 	docker-php-ext-enable \
 		apcu \
 		memcached \
@@ -75,8 +77,6 @@ RUN set -ex; \
 	apt-get install --no-install-recommends -y \
 		dirmngr \
 		gnupg \
-		less \
-		default-mysql-client \
 	; \
 	\
 	curl -o /usr/local/bin/wp.gpg -fSL "https://github.com/wp-cli/wp-cli/releases/download/v${WORDPRESS_CLI_VERSION}/wp-cli-${WORDPRESS_CLI_VERSION}.phar.gpg"; \
@@ -95,7 +95,7 @@ RUN set -ex; \
 	echo "$WORDPRESS_CLI_SHA512 */usr/local/bin/wp" | sha512sum -c -; \
 	chmod +x /usr/local/bin/wp; \
 	\
-	rm -rf /var/lib/apt/lists/* && \
+	rm -rf /var/lib/apt/lists/*; \
 	\
 	wp --allow-root --version
 

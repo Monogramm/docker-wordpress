@@ -13,21 +13,26 @@ cliSha512="$(curl -fsSL "https://github.com/wp-cli/wp-cli/releases/download/v${c
 declare -A cmd=(
 	[apache]='apache2-foreground'
 	[fpm]='php-fpm'
+	[fpm-alpine]='php-fpm'
 )
 
 declare -A base=(
 	[apache]='debian'
 	[fpm]='debian'
+	[fpm-alpine]='debian'
 )
 
 declare -A extras=(
 	[apache]='\&\& a2enmod headers remoteip ;\\\n    {\\\n      echo RemoteIPHeader X-Real-IP ;\\\n      echo RemoteIPTrustedProxy 10.0.0.0/8 ;\\\n      echo RemoteIPTrustedProxy 172.16.0.0/12 ;\\\n      echo RemoteIPTrustedProxy 192.168.0.0/16 ;\\\n    } > /etc/apache2/conf-available/remoteip.conf;\\\n    a2enconf remoteip'
 	[fpm]=''
+	[fpm-alpine]=''
 )
 
+# https://pecl.php.net/package/APCu
+# https://pecl.php.net/package/memcached
 declare -A pecl_versions=(
-	[APCu]='5.1.11'
-	[memcached]='3.0.4'
+	[APCu]='5.1.18'
+	[memcached]='3.1.5'
 )
 
 variants=(
