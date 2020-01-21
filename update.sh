@@ -38,6 +38,7 @@ declare -A pecl_versions=(
 variants=(
 	apache
 	fpm
+	fpm-alpine
 )
 
 min_version='4.9'
