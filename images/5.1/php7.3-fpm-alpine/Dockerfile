@@ -11,10 +11,8 @@ RUN set -ex; \
 	apk add --no-cache --update \
 		bash \
 		bzip2 \
-		csstidy \
 		less \
 		mysql-client \
-		tidy \
 		unzip \
 		zip \
 	; \
