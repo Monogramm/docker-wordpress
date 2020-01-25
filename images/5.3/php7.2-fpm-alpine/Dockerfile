@@ -28,7 +28,6 @@ RUN set -ex; \
 		libpng-dev \
 		libpq \
 		libxml2-dev \
-		z \
 		libzip-dev \
 	; \
 	debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)"; \
