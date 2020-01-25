@@ -12,6 +12,7 @@ RUN set -ex; \
 		bash \
 		bzip2 \
 		less \
+		libldap \
 		mysql-client \
 		unzip \
 		zip \
@@ -23,16 +24,15 @@ RUN set -ex; \
 		freetype-dev \
 		icu-dev \
 		jpeg-dev \
-		libldap \
 		memcached-dev \
+		openldap-dev \
 		libpng-dev \
 		libpq \
 		libxml2-dev \
 		libzip-dev \
 	; \
-	debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)"; \
 	docker-php-ext-configure gd --with-freetype --with-png --with-jpeg; \
-	docker-php-ext-configure ldap --with-libdir="lib/$debMultiarch"; \
+	docker-php-ext-configure ldap; \
 	docker-php-ext-install -j "$(nproc)" \
 		exif \
 		gd \
