@@ -26,6 +26,7 @@ RUN set -ex; \
 		icu-dev \
 		jpeg-dev \
 		memcached-dev \
+		libmemcached-dev
 		openldap-dev \
 		libpng-dev \
 		libpq \
