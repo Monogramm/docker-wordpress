@@ -85,7 +85,6 @@ WORKDIR /var/www/html
 RUN set -ex; \
 	\
 	apk add --no-cache --virtual .fetch-deps \
-		dirmngr \
 		gnupg \
 	; \
 	\
