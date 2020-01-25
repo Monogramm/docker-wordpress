@@ -19,16 +19,16 @@ RUN set -ex; \
 	mkdir -p /usr/src/php/ext; \
 	apk add --no-cache --virtual .build-deps \
 		$PHPIZE_DEPS \
-		curl4-openssl-dev \
+		curl-dev \
 		freetype-dev \
 		icu-dev \
 		jpeg-dev \
-		ldap2-dev \
+		libldap \
 		memcached-dev \
-		png-dev \
-		pq-dev \
-		xml2-dev \
-		z-dev \
+		libpng-dev \
+		libpq \
+		libxml2-dev \
+		z \
 		libzip-dev \
 	; \
 	debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)"; \
