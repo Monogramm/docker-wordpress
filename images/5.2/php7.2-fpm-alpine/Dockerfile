@@ -31,6 +31,7 @@ RUN set -ex; \
 		pq-dev \
 		xml2-dev \
 		z-dev \
+		libzip-dev \
 	; \
 	debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)"; \
 	docker-php-ext-configure gd --with-freetype --with-png --with-jpeg; \
