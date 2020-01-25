@@ -19,7 +19,7 @@ declare -A cmd=(
 declare -A base=(
 	[apache]='debian'
 	[fpm]='debian'
-	[fpm-alpine]='debian'
+	[fpm-alpine]='alpine'
 )
 
 declare -A extras=(
