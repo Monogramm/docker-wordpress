@@ -13,6 +13,7 @@ RUN set -ex; \
 		bzip2 \
 		less \
 		libldap \
+		memcached \
 		mysql-client \
 		unzip \
 		zip \
