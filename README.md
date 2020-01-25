@@ -25,18 +25,18 @@ WordPress is open source software you can use to create a beautiful website, blo
 
 https://hub.docker.com/r/monogramm/docker-wordpress/
 
+* Wordpress 5.3
+    * `5.3-apache` `5.3` `apache` `latest`
+    * `5.3-fpm` `fpm`
 * Wordpress 5.2
-    * `5.2-apache` `5.2` `apache` `latest`
-    * `5.2-fpm` `fpm`
+    * `5.2-apache` `5.2`
+    * `5.2-fpm`
 * Wordpress 5.1
     * `5.1-apache` `5.1`
     * `5.1-fpm`
 * Wordpress 5.0
     * `5.0-apache` `5.0`
     * `5.0-fpm`
-* Wordpress 4.9
-    * `4.9-apache` `4.9`
-    * `4.9-fpm`
 
 ## How to run this image ?
 
