@@ -33,7 +33,7 @@ RUN set -ex; \
 		libxml2-dev \
 		libzip-dev \
 	; \
-	docker-php-ext-configure gd --with-freetype --with-png --with-jpeg; \
+	docker-php-ext-configure gd; \
 	docker-php-ext-configure ldap; \
 	docker-php-ext-install -j "$(nproc)" \
 		exif \
