@@ -1,4 +1,4 @@
-FROM wordpress:5.0-php7.3-fpm
+FROM wordpress:5.3-php7.2-fpm-alpine
 
 LABEL maintainer="Monogramm maintainers <opensource at monogramm dot io>"
 
@@ -8,33 +8,33 @@ LABEL maintainer="Monogramm maintainers <opensource at monogramm dot io>"
 # Edit permissions of web directories
 RUN set -ex; \
 	\
-	apt-get update; \
-	apt-get install --no-install-recommends -y \
+	apk add --no-cache --update \
+		bash \
 		bzip2 \
-		csstidy \
-		tidy \
+		less \
+		libldap \
+		memcached \
+		mysql-client \
 		unzip \
 		zip \
 	; \
 	mkdir -p /usr/src/php/ext; \
-	apt-get install -y \
-		default-mysql-client \
-		less \
-		libcurl4-openssl-dev \
-		libfreetype6-dev \
-		libicu-dev \
-		libjpeg-dev \
-		libldap2-dev \
+	apk add --no-cache --virtual .build-deps \
+		$PHPIZE_DEPS \
+		curl-dev \
+		freetype-dev \
+		icu-dev \
+		jpeg-dev \
+		memcached-dev \
 		libmemcached-dev \
+		openldap-dev \
 		libpng-dev \
-		libpq-dev \
+		libpq \
 		libxml2-dev \
-		libz-dev \
 		libzip-dev \
 	; \
-	debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)"; \
-	docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr; \
-	docker-php-ext-configure ldap --with-libdir="lib/$debMultiarch"; \
+	docker-php-ext-configure gd; \
+	docker-php-ext-configure ldap; \
 	docker-php-ext-install -j "$(nproc)" \
 		exif \
 		gd \
@@ -56,7 +56,16 @@ RUN set -ex; \
 		apcu \
 		memcached \
 	 \
-	&& chown www-data:www-data /var/www /var/www/html
+	&& chown www-data:www-data /var/www /var/www/html; \
+	\
+	runDeps="$( \
+		scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
+			| tr ',' '\n' \
+			| sort -u \
+			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+	)"; \
+	apk add --virtual .wordpress-phpexts-rundeps $runDeps; \
+	apk del .build-deps
 
 
 # https://make.wordpress.org/cli/2018/05/31/gpg-signature-change/
@@ -75,8 +84,7 @@ WORKDIR /var/www/html
 # Cleanup
 RUN set -ex; \
 	\
-	apt-get install --no-install-recommends -y \
-		dirmngr \
+	apk add --no-cache --virtual .fetch-deps \
 		gnupg \
 	; \
 	\
@@ -96,7 +104,7 @@ RUN set -ex; \
 	echo "$WORDPRESS_CLI_SHA512 */usr/local/bin/wp" | sha512sum -c -; \
 	chmod +x /usr/local/bin/wp; \
 	\
-	rm -rf /var/lib/apt/lists/*; \
+	apk del .fetch-deps; \
 	\
 	wp --allow-root --version
 

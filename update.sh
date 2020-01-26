@@ -19,7 +19,7 @@ declare -A cmd=(
 declare -A base=(
 	[apache]='debian'
 	[fpm]='debian'
-	[fpm-alpine]='debian'
+	[fpm-alpine]='alpine'
 )
 
 declare -A extras=(
@@ -38,6 +38,7 @@ declare -A pecl_versions=(
 variants=(
 	apache
 	fpm
+	fpm-alpine
 )
 
 min_version='5.0'

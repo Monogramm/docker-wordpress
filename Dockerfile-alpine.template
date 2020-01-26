@@ -11,30 +11,30 @@ RUN set -ex; \
 	apk add --no-cache --update \
 		bash \
 		bzip2 \
-		csstidy \
 		less \
+		libldap \
+		memcached \
 		mysql-client \
-		tidy \
 		unzip \
 		zip \
 	; \
 	mkdir -p /usr/src/php/ext; \
 	apk add --no-cache --virtual .build-deps \
 		$PHPIZE_DEPS \
-		curl4-openssl-dev \
+		curl-dev \
 		freetype-dev \
 		icu-dev \
 		jpeg-dev \
-		ldap2-dev \
 		memcached-dev \
-		png-dev \
-		pq-dev \
-		xml2-dev \
-		z-dev \
+		libmemcached-dev \
+		openldap-dev \
+		libpng-dev \
+		libpq \
+		libxml2-dev \
+		libzip-dev \
 	; \
-	debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)"; \
-	docker-php-ext-configure gd --with-freetype --with-png --with-jpeg; \
-	docker-php-ext-configure ldap --with-libdir="lib/$debMultiarch"; \
+	docker-php-ext-configure gd; \
+	docker-php-ext-configure ldap; \
 	docker-php-ext-install -j "$(nproc)" \
 		exif \
 		gd \
@@ -85,7 +85,6 @@ WORKDIR /var/www/html
 RUN set -ex; \
 	\
 	apk add --no-cache --virtual .fetch-deps \
-		dirmngr \
 		gnupg \
 	; \
 	\
