@@ -1,4 +1,4 @@
-FROM wordpress:4.9-php7.2-fpm
+FROM wordpress:5.0-php7.3-fpm
 
 LABEL maintainer="Monogramm maintainers <opensource at monogramm dot io>"
 
@@ -30,11 +30,12 @@ RUN set -ex; \
 		libpq-dev \
 		libxml2-dev \
 		libz-dev \
+		libzip-dev \
 	; \
 	debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)"; \
 	docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr; \
 	docker-php-ext-configure ldap --with-libdir="lib/$debMultiarch"; \
-	docker-php-ext-install \
+	docker-php-ext-install -j "$(nproc)" \
 		exif \
 		gd \
 		intl \

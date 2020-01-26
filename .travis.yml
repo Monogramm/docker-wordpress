@@ -1,13 +1,14 @@
+os: linux
 dist: trusty
-sudo: required
 
 services: docker
 
-language: bash
+language: shell
 
 branches:
   only:
     - master
+    - develop
 
 before_script:
   - env | sort
@@ -27,14 +28,39 @@ after_script:
 notifications:
   email: false
 
+jobs:
+  allow_failures:
+    - env: VERSION=4.9 PHP_VERSION=7.3 VARIANT=fpm
+    - env: VERSION=4.9 PHP_VERSION=7.3 VARIANT=apache
+    - env: VERSION=5.0 PHP_VERSION=7.3 VARIANT=fpm
+    - env: VERSION=5.0 PHP_VERSION=7.3 VARIANT=apache
+    - env: VERSION=5.1 PHP_VERSION=7.3 VARIANT=fpm
+    - env: VERSION=5.1 PHP_VERSION=7.3 VARIANT=apache
+    - env: VERSION=5.2 PHP_VERSION=7.3 VARIANT=fpm
+    - env: VERSION=5.2 PHP_VERSION=7.3 VARIANT=apache
+
 env: # Environments
-    - VERSION=4.9 PHP_VERSION=7.2 VARIANT=fpm
-    - VERSION=4.9 PHP_VERSION=7.2 VARIANT=apache
+    - VERSION=5.0 PHP_VERSION=7.3 VARIANT=fpm-alpine
+    - VERSION=5.0 PHP_VERSION=7.3 VARIANT=fpm
+    - VERSION=5.0 PHP_VERSION=7.3 VARIANT=apache
+    - VERSION=5.0 PHP_VERSION=7.2 VARIANT=fpm-alpine
     - VERSION=5.0 PHP_VERSION=7.2 VARIANT=fpm
     - VERSION=5.0 PHP_VERSION=7.2 VARIANT=apache
+    - VERSION=5.1 PHP_VERSION=7.3 VARIANT=fpm-alpine
+    - VERSION=5.1 PHP_VERSION=7.3 VARIANT=fpm
+    - VERSION=5.1 PHP_VERSION=7.3 VARIANT=apache
+    - VERSION=5.1 PHP_VERSION=7.2 VARIANT=fpm-alpine
     - VERSION=5.1 PHP_VERSION=7.2 VARIANT=fpm
     - VERSION=5.1 PHP_VERSION=7.2 VARIANT=apache
+    - VERSION=5.2 PHP_VERSION=7.3 VARIANT=fpm-alpine
+    - VERSION=5.2 PHP_VERSION=7.3 VARIANT=fpm
+    - VERSION=5.2 PHP_VERSION=7.3 VARIANT=apache
+    - VERSION=5.2 PHP_VERSION=7.2 VARIANT=fpm-alpine
     - VERSION=5.2 PHP_VERSION=7.2 VARIANT=fpm
     - VERSION=5.2 PHP_VERSION=7.2 VARIANT=apache
+    - VERSION=5.3 PHP_VERSION=7.3 VARIANT=fpm-alpine
+    - VERSION=5.3 PHP_VERSION=7.3 VARIANT=fpm
+    - VERSION=5.3 PHP_VERSION=7.3 VARIANT=apache
+    - VERSION=5.3 PHP_VERSION=7.2 VARIANT=fpm-alpine
     - VERSION=5.3 PHP_VERSION=7.2 VARIANT=fpm
     - VERSION=5.3 PHP_VERSION=7.2 VARIANT=apache

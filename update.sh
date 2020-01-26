@@ -19,7 +19,7 @@ declare -A cmd=(
 declare -A base=(
 	[apache]='debian'
 	[fpm]='debian'
-	[fpm-alpine]='debian'
+	[fpm-alpine]='alpine'
 )
 
 declare -A extras=(
@@ -38,9 +38,10 @@ declare -A pecl_versions=(
 variants=(
 	apache
 	fpm
+	fpm-alpine
 )
 
-min_version='4.9'
+min_version='5.0'
 
 
 # version_greater_or_equal A B returns whether A >= B
@@ -48,7 +49,7 @@ function version_greater_or_equal() {
 	[[ "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1" || "$1" == "$2" ]];
 }
 
-php_versions=( "7.2" )
+php_versions=( "7.2" "7.3" )
 
 dockerRepo="monogramm/docker-wordpress"
 echo "retrieve automatically the latest versions..."
