@@ -1,10 +1,11 @@
-
 [![License: AGPL v3][uri_license_image]][uri_license]
 [![Build Status](https://travis-ci.org/Monogramm/docker-wordpress.svg)](https://travis-ci.org/Monogramm/docker-wordpress)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/af9afb1e146f471681d33e0cf2d2fe53)](https://www.codacy.com/gh/Monogramm/docker-wordpress?utm_source=github.com&utm_medium=referral&utm_content=Monogramm/docker-wordpress&utm_campaign=Badge_Grade)
 [![Docker Automated buid](https://img.shields.io/docker/build/monogramm/docker-wordpress.svg)](https://hub.docker.com/r/monogramm/docker-wordpress/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/monogramm/docker-wordpress.svg)](https://hub.docker.com/r/monogramm/docker-wordpress/)
 [![](https://images.microbadger.com/badges/version/monogramm/docker-wordpress.svg)](https://microbadger.com/images/monogramm/docker-wordpress)
 [![](https://images.microbadger.com/badges/image/monogramm/docker-wordpress.svg)](https://microbadger.com/images/monogramm/docker-wordpress)
+[![GitHub stars](https://img.shields.io/github/stars/Monogramm/docker-wordpress?style=social)](https://github.com/Monogramm/docker-wordpress)
 
 # Wordpress custom Docker
 
@@ -118,9 +119,9 @@ The following environment variables are also honored for configuring your WordPr
 
 If the `WORDPRESS_DB_NAME` specified does not already exist on the given MySQL server, it will be created automatically upon startup of the `wordpress` container, provided that the `WORDPRESS_DB_USER` specified has the necessary permissions to create it.
 
-# Running this image with docker-compose
+## Running this image with docker-compose
 
-## Base version - apache with MariaDB/MySQL
+### Base version - apache with MariaDB/MySQL
 
 This version will use the apache image and add a [MariaDB](https://hub.docker.com/_/mariadb/) container (you can also use [MySQL](https://hub.docker.com/_/mysql/) if you prefer). The volumes are set to keep your data persistent. This setup provides **no ssl encryption** and is intended to run behind a proxy. 
 
@@ -165,7 +166,7 @@ services:
 
 Then run all services `docker-compose up -d`. Now, go to <http://localhost:8080> to access the new Wordpress installation wizard.
 
-## Base version - FPM with MemCached
+### Base version - FPM with MemCached
 
 When using the FPM image you need another container that acts as web server on port 80 and proxies the requests to the Wordpress container.
 In this example a simple nginx container is combined with the `monogramm/docker-wordpress:fpm` image. The data is stored in docker volumes. The nginx container also need access to static files from your Wordpress installation. It gets access to all the volumes mounted to Wordpress via the `volumes_from` option. The configuration for nginx is stored in the configuration file `nginx.conf`, that is mounted into the container.
@@ -229,17 +230,17 @@ In order for this work, you must provide a valid NGinx config. Take a look at [f
 
 Then run all services `docker-compose up -d`. Now, go to <http://localhost:8080> to access the new Wordpress installation wizard.
 
-# Make your Wordpress available from the internet
+## Make your Wordpress available from the internet
 
 Until here your Wordpress is just available from you docker host. If you want you Wordpress available from the internet adding SSL encryption is mandatory.
 
-## HTTPS - SSL encryption
+### HTTPS - SSL encryption
 
 There are many different possibilities to introduce encryption depending on your setup. 
 
 We recommend using a reverse proxy in front of our Wordpress installation. Your Wordpress will only be reachable through the proxy, which encrypts all traffic to the clients. You can mount your manually generated certificates to the proxy or use a fully automated solution, which generates and renews the certificates for you.
 
-## Enable Object Caching
+### Enable Object Caching
 
 Once the initial site configuration performed, navigate to `Plugins`, activate `WP-FFPC` and click `Settings`.
 Set the following minimal configuration options:
@@ -268,7 +269,7 @@ WPFFPC_SETTINGS="$WPFFPC_SETTINGS}"
 wordpress_command option add wp-ffpc "$WPFFPC_SETTINGS" --format=json
 ```
 
-# Update to a newer version
+## Update to a newer version
 
 Because the `docker-compose` levegare persistent volume in the Wordpress root directory, its required to open a session in a `cli` container in order to run the command `wp core update`.
 
@@ -296,7 +297,7 @@ Run the following commands
 docker exec --user www-data wordpress bash -c 'wp core update && wp plugins update --all && wp theme update --all'
 ```
 
-# Adding Features
+## Adding Features
 
 If the image does not include the packages you need, you can easily build your own image on top of it.
 Start your derived image with the `FROM` statement and add whatever you like.
@@ -350,7 +351,7 @@ docker-compose up -d
 
 The `--pull` option tells docker to look for new versions of the base image. Then the build instructions inside your `Dockerfile` are run on top of the new image.
 
-# Questions / Issues
+## Questions / Issues
 
 If you got any questions or problems using the image, please visit our [Github Repository](https://github.com/Monogramm/docker-wordpress) and write an issue.  
 
