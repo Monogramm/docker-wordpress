@@ -1,7 +1,4 @@
 
-[uri_license]: http://www.gnu.org/licenses/agpl.html
-[uri_license_image]: https://img.shields.io/badge/License-AGPL%20v3-blue.svg
-
 [![License: AGPL v3][uri_license_image]][uri_license]
 [![Build Status](https://travis-ci.org/Monogramm/docker-wordpress.svg)](https://travis-ci.org/Monogramm/docker-wordpress)
 [![Docker Automated buid](https://img.shields.io/docker/build/monogramm/docker-wordpress.svg)](https://hub.docker.com/r/monogramm/docker-wordpress/)
@@ -23,20 +20,23 @@ WordPress is open source software you can use to create a beautiful website, blo
 
 ## Supported tags
 
-https://hub.docker.com/r/monogramm/docker-wordpress/
+<https://hub.docker.com/r/monogramm/docker-wordpress/>
 
-* Wordpress 5.3
-    * `5.3-apache` `5.3` `apache` `latest`
-    * `5.3-fpm` `fpm`
-* Wordpress 5.2
-    * `5.2-apache` `5.2`
-    * `5.2-fpm`
-* Wordpress 5.1
-    * `5.1-apache` `5.1`
-    * `5.1-fpm`
-* Wordpress 5.0
-    * `5.0-apache` `5.0`
-    * `5.0-fpm`
+-   Wordpress 5.4
+    -   `5.4-apache` `5.4` `apache` `latest`
+    -   `5.4-fpm` `fpm`
+-   Wordpress 5.3
+    -   `5.3-apache` `5.3`
+    -   `5.3-fpm`
+-   Wordpress 5.2
+    -   `5.2-apache` `5.2`
+    -   `5.2-fpm`
+-   Wordpress 5.1
+    -   `5.1-apache` `5.1`
+    -   `5.1-fpm`
+-   Wordpress 5.0
+    -   `5.0-apache` `5.0`
+    -   `5.0-fpm`
 
 ## How to run this image ?
 
@@ -52,16 +52,17 @@ The `apache` tag contains a full Wordpress installation including an apache web 
 The second option is a `fpm` container. It is based on the [php-fpm](https://hub.docker.com/_/php/) image and runs a fastCGI-Process that serves your Wordpress page. To use this image it must be combined with any webserver that can proxy the http requests to the FastCGI-port of the container.
 
 ## Using the apache image
+
 The apache image contains a webserver and exposes port 80. To start the container type:
 
 ```console
 $ docker run -d -p 8080:80 monogramm/docker-wordpress
 ```
 
-Now you can access Wordpress at http://localhost:8080/ from your host system.
-
+Now you can access Wordpress at <http://localhost:8080/> from your host system.
 
 ## Using the fpm image
+
 To use the fpm image you need an additional web server that can proxy http-request to the fpm-port of the container. For fpm connection this container exposes port 9000. In most cases you might want use another container or your host as proxy.
 If you use your host you can address your Wordpress container directly on port 9000. If you use another container, make sure that you add them to the same docker network (via `docker run --network <NAME> ...` or a `docker-compose` file).
 In both cases you don't want to map the fpm port to you host. 
@@ -73,17 +74,21 @@ $ docker run -d monogramm/docker-wordpress:fpm
 As the fastCGI-Process is not capable of serving static files (style sheets, images, ...) the webserver needs access to these files. This can be achieved with the `volumes-from` option. You can find more information in the docker-compose section.
 
 ## Using an external database
+
 By default this container does not contain the database for Wordpress. You need to use either an existing database or a database container.
 
 The Wordpress setup wizard (should appear on first run) allows connecting to an existing MySQL/MariaDB. You can also link a database container, e. g. `--link my-mysql:mysql`, and then use `mysql` as the database host on setup. More info is in the docker-compose section.
 
 ## Persistent data
+
 The Wordpress installation and all data beyond what lives in the database (file uploads, etc) are stored in the [unnamed docker volume](https://docs.docker.com/engine/tutorials/dockervolumes/#adding-a-data-volume) volume `/var/www/html`. The docker daemon will store that data within the docker directory `/var/lib/docker/volumes/...`. That means your data is saved even if the container crashes, is stopped or deleted.
 
 To make your data persistent to upgrading and get access for backups is using named docker volume or mount a host folder. To achieve this you need one volume for your database container and Wordpress.
 
 Wordpress:
-- `/var/www/html/` folder where all Wordpress data lives
+
+-   `/var/www/html/` folder where all Wordpress data lives
+
 ```console
 $ docker run -d \
     -v wordpress_html:/var/www/html \
@@ -91,7 +96,9 @@ $ docker run -d \
 ```
 
 Database:
-- `/var/lib/mysql` MySQL / MariaDB Data
+
+-   `/var/lib/mysql` MySQL / MariaDB Data
+
 ```console
 $ docker run -d \
     -v db:/var/lib/mysql \
@@ -102,12 +109,12 @@ $ docker run -d \
 
 The following environment variables are also honored for configuring your WordPress instance:
 
--	`-e WORDPRESS_DB_HOST=...` (defaults to the IP and port of the linked `mysql` container)
--	`-e WORDPRESS_DB_USER=...` (defaults to "root")
--	`-e WORDPRESS_DB_PASSWORD=...` (defaults to the value of the `MYSQL_ROOT_PASSWORD` environment variable from the linked `mysql` container)
--	`-e WORDPRESS_DB_NAME=...` (defaults to "wordpress")
--	`-e WORDPRESS_TABLE_PREFIX=...` (defaults to "", only set this when you need to override the default table prefix in wp-config.php)
--	`-e WORDPRESS_AUTH_KEY=...`, `-e WORDPRESS_SECURE_AUTH_KEY=...`, `-e WORDPRESS_LOGGED_IN_KEY=...`, `-e WORDPRESS_NONCE_KEY=...`, `-e WORDPRESS_AUTH_SALT=...`, `-e WORDPRESS_SECURE_AUTH_SALT=...`, `-e WORDPRESS_LOGGED_IN_SALT=...`, `-e WORDPRESS_NONCE_SALT=...` (default to unique random SHA1s)
+-   `-e WORDPRESS_DB_HOST=...` (defaults to the IP and port of the linked `mysql` container)
+-   `-e WORDPRESS_DB_USER=...` (defaults to "root")
+-   `-e WORDPRESS_DB_PASSWORD=...` (defaults to the value of the `MYSQL_ROOT_PASSWORD` environment variable from the linked `mysql` container)
+-   `-e WORDPRESS_DB_NAME=...` (defaults to "wordpress")
+-   `-e WORDPRESS_TABLE_PREFIX=...` (defaults to "", only set this when you need to override the default table prefix in wp-config.php)
+-   `-e WORDPRESS_AUTH_KEY=...`, `-e WORDPRESS_SECURE_AUTH_KEY=...`, `-e WORDPRESS_LOGGED_IN_KEY=...`, `-e WORDPRESS_NONCE_KEY=...`, `-e WORDPRESS_AUTH_SALT=...`, `-e WORDPRESS_SECURE_AUTH_SALT=...`, `-e WORDPRESS_LOGGED_IN_SALT=...`, `-e WORDPRESS_NONCE_SALT=...` (default to unique random SHA1s)
 
 If the `WORDPRESS_DB_NAME` specified does not already exist on the given MySQL server, it will be created automatically upon startup of the `wordpress` container, provided that the `WORDPRESS_DB_USER` specified has the necessary permissions to create it.
 
@@ -156,9 +163,10 @@ services:
             - wordpress_html:/var/www/html
 ```
 
-Then run all services `docker-compose up -d`. Now, go to http://localhost:8080 to access the new Wordpress installation wizard.
+Then run all services `docker-compose up -d`. Now, go to <http://localhost:8080> to access the new Wordpress installation wizard.
 
 ## Base version - FPM with MemCached
+
 When using the FPM image you need another container that acts as web server on port 80 and proxies the requests to the Wordpress container.
 In this example a simple nginx container is combined with the `monogramm/docker-wordpress:fpm` image. The data is stored in docker volumes. The nginx container also need access to static files from your Wordpress installation. It gets access to all the volumes mounted to Wordpress via the `volumes_from` option. The configuration for nginx is stored in the configuration file `nginx.conf`, that is mounted into the container.
 
@@ -219,13 +227,14 @@ services:
 
 In order for this work, you must provide a valid NGinx config. Take a look at [fjudith/docker-wordpress](https://github.com/fjudith/docker-wordpress) to get some sample configuration.
 
-Then run all services `docker-compose up -d`. Now, go to http://localhost:8080 to access the new Wordpress installation wizard.
-
+Then run all services `docker-compose up -d`. Now, go to <http://localhost:8080> to access the new Wordpress installation wizard.
 
 # Make your Wordpress available from the internet
+
 Until here your Wordpress is just available from you docker host. If you want you Wordpress available from the internet adding SSL encryption is mandatory.
 
 ## HTTPS - SSL encryption
+
 There are many different possibilities to introduce encryption depending on your setup. 
 
 We recommend using a reverse proxy in front of our Wordpress installation. Your Wordpress will only be reachable through the proxy, which encrypts all traffic to the clients. You can mount your manually generated certificates to the proxy or use a fully automated solution, which generates and renews the certificates for you.
@@ -235,11 +244,11 @@ We recommend using a reverse proxy in front of our Wordpress installation. Your 
 Once the initial site configuration performed, navigate to `Plugins`, activate `WP-FFPC` and click `Settings`.
 Set the following minimal configuration options:
 
-* **Cache Type/Select Backend**: PHP Memcached
-* **Backend Settings/Hosts**: memcached:11211
-* **Backend Settings/Authentication: username**: _Empty_
-* **Backend Settings/Authentication: password**: _Empty_
-* **Backend Settings/Enable memcached binary mode**: **Activated**
+-   **Cache Type/Select Backend**: PHP Memcached
+-   **Backend Settings/Hosts**: memcached:11211
+-   **Backend Settings/Authentication: username**: _Empty_
+-   **Backend Settings/Authentication: password**: _Empty_
+-   **Backend Settings/Enable memcached binary mode**: **Activated**
 
 You can also open a terminal session in the `wordpress` container to edit the config.
 
@@ -257,9 +266,10 @@ WPFFPC_SETTINGS=$"$WPFFPC_SETTINGS, \"authpass\": \"\""
 WPFFPC_SETTINGS="$WPFFPC_SETTINGS}"
 
 wordpress_command option add wp-ffpc "$WPFFPC_SETTINGS" --format=json
-``` 
+```
 
 # Update to a newer version
+
 Because the `docker-compose` levegare persistent volume in the Wordpress root directory, its required to open a session in a `cli` container in order to run the command `wp core update`.
 
 ### Interactive
@@ -268,7 +278,7 @@ Open a terminal session in the `wordpress` container.
 
 ```bash
 docker exec --user www-data wordpress bash
-``` 
+```
 
 Run the following commands to update the application engine, the plugins and themes.
 
@@ -286,8 +296,8 @@ Run the following commands
 docker exec --user www-data wordpress bash -c 'wp core update && wp plugins update --all && wp theme update --all'
 ```
 
-
 # Adding Features
+
 If the image does not include the packages you need, you can easily build your own image on top of it.
 Start your derived image with the `FROM` statement and add whatever you like.
 
@@ -301,14 +311,17 @@ RUN ...
 You can also clone this repository and use the [update.sh](update.sh) shell script to generate a new Dockerfile based on your own needs.
 
 For instance, you could build a container based on Wordpress develop branch by setting the `update.sh` versions like this:
+
 ```bash
 versions=( "master" )
 ```
+
 Then simply call [update.sh](update.sh) script.
 
 ```console
 bash update.sh
 ```
+
 Your Dockerfile(s) will be generated in the `images/master` folder.
 
 If you use your own Dockerfile you need to configure your docker-compose file accordingly. Switch out the `image` option with `build`. You have to specify the path to your Dockerfile. (in the example it's in the same directory next to the docker-compose file)
@@ -329,6 +342,7 @@ docker run -d your-name
 ```
 
 or for docker-compose:
+
 ```console
 docker-compose build --pull
 docker-compose up -d
@@ -337,4 +351,9 @@ docker-compose up -d
 The `--pull` option tells docker to look for new versions of the base image. Then the build instructions inside your `Dockerfile` are run on top of the new image.
 
 # Questions / Issues
+
 If you got any questions or problems using the image, please visit our [Github Repository](https://github.com/Monogramm/docker-wordpress) and write an issue.  
+
+[uri_license]: http://www.gnu.org/licenses/agpl.html
+
+[uri_license_image]: https://img.shields.io/badge/License-AGPL%20v3-blue.svg
