@@ -26,15 +26,19 @@ WordPress is open source software you can use to create a beautiful website, blo
 -   Wordpress 5.4
     -   `5.4-apache` `5.4` `apache` `latest`
     -   `5.4-fpm` `fpm`
+
 -   Wordpress 5.3
     -   `5.3-apache` `5.3`
     -   `5.3-fpm`
+
 -   Wordpress 5.2
     -   `5.2-apache` `5.2`
     -   `5.2-fpm`
+
 -   Wordpress 5.1
     -   `5.1-apache` `5.1`
     -   `5.1-fpm`
+
 -   Wordpress 5.0
     -   `5.0-apache` `5.0`
     -   `5.0-fpm`
