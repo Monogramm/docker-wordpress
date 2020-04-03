@@ -1,12 +1,13 @@
 #!/bin/bash
 set -eo pipefail
 
-
-cliVersion="$(
-	git ls-remote --tags 'https://github.com/wp-cli/wp-cli.git' \
-		| sed -r 's!^[^\t]+\trefs/tags/v([^^]+).*!\1!g' \
-		| tail -1
-)"
+# XXX No phar asset on 2.4.1
+#cliVersion="$(
+#	git ls-remote --tags 'https://github.com/wp-cli/wp-cli.git' \
+#		| sed -r 's!^[^\t]+\trefs/tags/v([^^]+).*!\1!g' \
+#		| tail -1
+#)"
+cliVersion=2.4.0
 cliSha512="$(curl -fsSL "https://github.com/wp-cli/wp-cli/releases/download/v${cliVersion}/wp-cli-${cliVersion}.phar.sha512")"
 
 
