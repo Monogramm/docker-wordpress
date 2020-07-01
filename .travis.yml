@@ -10,20 +10,47 @@ branches:
     - master
     - develop
 
-before_script:
+before_install:
   - env | sort
-  - name="wordpress"
-  - image="monogramm/docker-wordpress:${VERSION}${PHP_VERSION:+-$PHP_VERSION}${VARIANT:+-$VARIANT}"
-  - dir="images/${VERSION}/php${PHP_VERSION}-${VARIANT}"
+  - export name="wordpress"
+  - export image="monogramm/docker-wordpress:${VERSION}${PHP_VERSION:+-$PHP_VERSION}${VARIANT:+-$VARIANT}"
+  - export dir="images/${VERSION}/php${PHP_VERSION}-${VARIANT}"
 
-script:
+install:
+  # Test container build
   - travis_retry docker build -t "$image" "$dir"
 
-after_script:
+before_script:
   - docker images
+
+script:
+  # Test container run (docker)
   - docker run --name "$name" -d "$image" "$dir"
   - docker ps
   - docker logs "$name"
+  - docker stop "$name"
+  - docker rm -f -v "$name"
+  # Test container run (docker-compose)
+  - travis_retry docker-compose up -d && sleep 20
+  - docker-compose ps
+  - docker-compose logs "wordpressdb"
+  - docker-compose ps "wordpressdb" | grep "Up" || exit 1
+  - docker-compose logs "wordpress"
+  - docker-compose ps "wordpress" | grep "Up" || exit 1
+  - echo 'Wait until sites and apps database installed (4-5 minutes)' && sleep 300
+  - docker-compose ps
+  - docker-compose logs "wordpressdb"
+  - docker-compose ps "wordpressdb" | grep "Up"
+  - docker-compose logs "wordpress"
+  - docker-compose ps "wordpress" | grep "Up"
+  # Test container restart
+  - docker-compose down
+  - travis_retry docker-compose up -d && sleep 20
+  - docker-compose ps
+  - docker-compose logs "wordpressdb"
+  - docker-compose ps "wordpressdb" | grep "Up"
+  - docker-compose logs "wordpress"
+  - docker-compose ps "wordpress" | grep "Up"
 
 notifications:
   email: false

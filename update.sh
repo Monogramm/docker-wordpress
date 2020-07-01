@@ -11,6 +11,12 @@ cliVersion=2.4.0
 cliSha512="$(curl -fsSL "https://github.com/wp-cli/wp-cli/releases/download/v${cliVersion}/wp-cli-${cliVersion}.phar.sha512")"
 
 
+declare -A compose=(
+	[apache]='apache'
+	[fpm]='fpm'
+	[fpm-alpine]='fpm'
+)
+
 declare -A cmd=(
 	[apache]='apache2-foreground'
 	[fpm]='php-fpm'
@@ -67,10 +73,6 @@ travisEnv=
 for latest in "${latests[@]}"; do
 	version=$(echo "$latest" | cut -d. -f1-2)
 
-	if [ -d "$version" ]; then
-		continue
-	fi
-
 	# Only add versions >= "$min_version"
 	if version_greater_or_equal "$version" "$min_version"; then
 
@@ -81,10 +83,16 @@ for latest in "${latests[@]}"; do
 
 				# Create the version+php_version+variant directory with a Dockerfile.
 				dir="images/$version/php$php_version-$variant"
+				if [ -d "$dir" ]; then
+					continue
+				fi
 				mkdir -p "$dir"
 
-				template="Dockerfile-${base[$variant]}.template"
+				template="Dockerfile.${base[$variant]}.template"
 				cp "$template" "$dir/Dockerfile"
+
+				cp ".dockerignore" "$dir/.dockerignore"
+				cp "docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml"
 
 				# Replace the variables.
 				sed -ri -e '
