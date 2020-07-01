@@ -12,8 +12,9 @@ services:
       - wordpressdb
     ports:
       - 9000:9000
-    volumes:
-      - /srv/wordpress/html:/var/www/html
+    # To persist WP locally
+    #volumes:
+    #  - /srv/wordpress/html:/var/www/html
     environment:
       # Site Config
       - WORDPRESS_USERNAME=${WORDPRESS_ADMIN_LOGIN}
@@ -42,7 +43,7 @@ services:
     restart: always
     command: --character_set_client=utf8 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --character-set-client-handshake=FALSE
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "--password=${WORDPRESS_DB_ROOT_PWD}"]
       timeout: 10s
       retries: 5
     ports:
@@ -50,10 +51,10 @@ services:
     volumes:
       - /srv/wordpress/db:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=mysqlrootpassword
-      - MYSQL_DATABASE=wordpress
-      - MYSQL_USER=wordpress
-      - MYSQL_PASSWORD=wordpressdbpass
+      - MYSQL_ROOT_PASSWORD=${WORDPRESS_DB_ROOT_PWD}
+      - MYSQL_DATABASE=${WORDPRESS_DB_NAME}
+      - MYSQL_USER=${WORDPRESS_DB_USER}
+      - MYSQL_PASSWORD=${WORDPRESS_DB_PWD}
 
   wordpressnginx:
     image: nginx:latest
