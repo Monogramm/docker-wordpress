@@ -11,7 +11,7 @@ services:
     links:
       - wordpressdb
     ports:
-      - 9000:9000
+      - "9000:9000"
     # To persist WP locally
     #volumes:
     #  - /srv/wordpress/html:/var/www/html
@@ -47,7 +47,7 @@ services:
       timeout: 10s
       retries: 5
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - /srv/wordpress/db:/var/lib/mysql
     environment:
@@ -61,9 +61,9 @@ services:
     container_name: wordpressnginx
     restart: always
     ports:
-      - 80:80
+      - "80:80"
       # If you need SSL connection
-      # - '443:443'
+      # - "443:443"
     depends_on:
       - wordpress
     links:
@@ -87,7 +87,7 @@ services:
     expose:
       - 1025
     ports:
-      - 1080:1080
+      - "1080:1080"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro

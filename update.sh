@@ -91,6 +91,7 @@ for latest in "${latests[@]}"; do
 				template="Dockerfile.${base[$variant]}.template"
 				cp "$template" "$dir/Dockerfile"
 
+				cp ".env" "$dir/.env"
 				cp ".dockerignore" "$dir/.dockerignore"
 				cp "docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml"
 
