@@ -13,7 +13,7 @@ Custom Docker image for Wordpress.
 
 Provides full database configuration, memcached and LDAP support and [WP-CLI](https://developer.wordpress.org/cli/commands/).
 
-## What is Wordpress ?
+## What is Wordpress
 
 WordPress is open source software you can use to create a beautiful website, blog, or app.
 
@@ -39,7 +39,7 @@ WordPress is open source software you can use to create a beautiful website, blo
     -   `5.1-apache` `5.1`
     -   `5.1-fpm`
 
-## How to run this image ?
+## How to run this image
 
 This Docker image adds LDAP and Memcached PHP Extension to [official Wordpress image](https://hub.docker.com/_/wordpress/) for WordPress plugins.
 It is inspired from [fjudith/docker-wordpress](https://github.com/fjudith/docker-wordpress) image but also provides Apache variant.
