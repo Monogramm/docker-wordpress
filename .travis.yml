@@ -14,7 +14,8 @@ before_install:
   - env | sort
   - export name="wordpress"
   - export image="monogramm/docker-wordpress:${VERSION}${PHP_VERSION:+-$PHP_VERSION}${VARIANT:+-$VARIANT}"
-  - export dir="images/${VERSION}/php${PHP_VERSION}-${VARIANT}"
+  - export home=$(pwd)
+  - export dir="${home}/images/${VERSION}/php${PHP_VERSION}-${VARIANT}"
 
 install:
   # Test container build
