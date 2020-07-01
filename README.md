@@ -39,10 +39,6 @@ WordPress is open source software you can use to create a beautiful website, blo
     -   `5.1-apache` `5.1`
     -   `5.1-fpm`
 
--   Wordpress 5.0
-    -   `5.0-apache` `5.0`
-    -   `5.0-fpm`
-
 ## How to run this image ?
 
 This Docker image adds LDAP and Memcached PHP Extension to [official Wordpress image](https://hub.docker.com/_/wordpress/) for WordPress plugins.
