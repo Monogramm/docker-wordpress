@@ -17,7 +17,7 @@ RUN set -ex; \
 		zip \
 	; \
 	mkdir -p /usr/src/php/ext; \
-	apt-get install -y \
+	apt-get install --no-install-recommends -y \
 		default-mysql-client \
 		less \
 		libcurl4-openssl-dev \
