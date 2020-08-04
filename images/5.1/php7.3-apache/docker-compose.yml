@@ -11,7 +11,7 @@ services:
     links:
       - wordpressdb
     expose:
-      - '80'
+      - "80"
     #ports:
     #  - "80:80"
     # To persist WP locally
@@ -42,14 +42,22 @@ services:
   wordpressdb:
     image: mariadb:latest
     container_name: wordpressdb
-    restart: always
+    #restart: always
     command: --character_set_client=utf8 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --character-set-client-handshake=FALSE
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "--password=${WORDPRESS_DB_ROOT_PWD}"]
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "--password=${WORDPRESS_DB_ROOT_PWD}",
+        ]
       timeout: 10s
       retries: 5
     expose:
-      - '3306'
+      - "3306"
     #ports:
     #  - "3306:3306"
     volumes:
