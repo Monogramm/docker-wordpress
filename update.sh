@@ -89,11 +89,11 @@ for latest in "${latests[@]}"; do
 				mkdir -p "$dir"
 
 				template="Dockerfile.${base[$variant]}.template"
-				cp "$template" "$dir/Dockerfile"
+				cp "template/$template" "$dir/Dockerfile"
 
-				cp ".env" "$dir/.env"
-				cp ".dockerignore" "$dir/.dockerignore"
-				cp "docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml"
+				cp "template/.env" "$dir/.env"
+				cp "template/.dockerignore" "$dir/.dockerignore"
+				cp "template/docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml"
 
 				# Replace the variables.
 				sed -ri -e '

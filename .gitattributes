@@ -10,6 +10,7 @@
 *.md text
 *.sh text eol=lf
 *.yml text eol=lf
+.env text eol=lf
 Dockerfile text eol=lf
 Dockerfile-*.template text eol=lf
 
