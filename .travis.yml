@@ -20,7 +20,7 @@ before_install:
 install:
   - cd "$dir"
   # Test container build
-  - travis_retry docker build -t "$image"
+  - travis_retry docker build -t "$image" "$dir"
 
 before_script:
   - docker images
