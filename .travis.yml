@@ -1,5 +1,5 @@
 os: linux
-dist: trusty
+dist: bionic
 
 services: docker
 
@@ -18,40 +18,42 @@ before_install:
   - export dir="${home}/images/${VERSION}/php${PHP_VERSION}-${VARIANT}"
 
 install:
+  - cd "$dir"
   # Test container build
-  - travis_retry docker build -t "$image" "$dir"
+  - travis_retry docker build -t "$image"
 
 before_script:
   - docker images
 
 script:
+  - cd "$dir"
   # Test container run (docker)
-  - docker run --name "$name" -d "$image" "$dir"
+  - docker run --name "$name" -d "$image"
   - docker ps
   - docker logs "$name"
   - docker stop "$name"
   - docker rm -f -v "$name"
   # Test container run (docker-compose)
-  - travis_retry docker-compose -f "$dir/docker-compose.yml" up -d && sleep 20
-  - docker-compose -f "$dir/docker-compose.yml" ps
-  - docker-compose -f "$dir/docker-compose.yml" logs "wordpressdb"
-  - docker-compose -f "$dir/docker-compose.yml" ps "wordpressdb" | grep "Up" || exit 1
-  - docker-compose -f "$dir/docker-compose.yml" logs "wordpress"
-  - docker-compose -f "$dir/docker-compose.yml" ps "wordpress" | grep "Up" || exit 1
+  - travis_retry docker-compose up -d && sleep 20
+  - docker-compose ps
+  - docker-compose logs "wordpressdb"
+  - docker-compose ps "wordpressdb" | grep "Up" || exit 1
+  - docker-compose logs "wordpress"
+  - docker-compose ps "wordpress" | grep "Up" || exit 1
   - echo 'Wait until sites and apps database installed (4-5 minutes)' && sleep 300
-  - docker-compose -f "$dir/docker-compose.yml" ps
-  - docker-compose -f "$dir/docker-compose.yml" logs "wordpressdb"
-  - docker-compose -f "$dir/docker-compose.yml" ps "wordpressdb" | grep "Up"
-  - docker-compose -f "$dir/docker-compose.yml" logs "wordpress"
-  - docker-compose -f "$dir/docker-compose.yml" ps "wordpress" | grep "Up"
+  - docker-compose ps
+  - docker-compose logs "wordpressdb"
+  - docker-compose ps "wordpressdb" | grep "Up"
+  - docker-compose logs "wordpress"
+  - docker-compose ps "wordpress" | grep "Up"
   # Test container restart
-  - docker-compose -f "$dir/docker-compose.yml" down
-  - travis_retry docker-compose -f "$dir/docker-compose.yml" up -d && sleep 20
-  - docker-compose -f "$dir/docker-compose.yml" ps
-  - docker-compose -f "$dir/docker-compose.yml" logs "wordpressdb"
-  - docker-compose -f "$dir/docker-compose.yml" ps "wordpressdb" | grep "Up"
-  - docker-compose -f "$dir/docker-compose.yml" logs "wordpress"
-  - docker-compose -f "$dir/docker-compose.yml" ps "wordpress" | grep "Up"
+  - docker-compose down
+  - travis_retry docker-compose up -d && sleep 20
+  - docker-compose ps
+  - docker-compose logs "wordpressdb"
+  - docker-compose ps "wordpressdb" | grep "Up"
+  - docker-compose logs "wordpress"
+  - docker-compose ps "wordpress" | grep "Up"
 
 notifications:
   email: false
