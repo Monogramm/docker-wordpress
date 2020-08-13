@@ -55,15 +55,18 @@ RUN set -ex; \
 	docker-php-ext-enable \
 		apcu \
 		memcached \
-	&& a2enmod headers remoteip ;\
+	; \
+	a2enmod headers remoteip ;\
     {\
       echo RemoteIPHeader X-Real-IP ;\
       echo RemoteIPTrustedProxy 10.0.0.0/8 ;\
       echo RemoteIPTrustedProxy 172.16.0.0/12 ;\
       echo RemoteIPTrustedProxy 192.168.0.0/16 ;\
     } > /etc/apache2/conf-available/remoteip.conf;\
-    a2enconf remoteip \
-	&& chown www-data:www-data /var/www /var/www/html
+    a2enconf remoteip; \
+	chown www-data:www-data /var/www /var/www/html; \
+	apt-get clean; \
+	rm -rf /var/lib/apt/lists/*
 
 
 # https://make.wordpress.org/cli/2018/05/31/gpg-signature-change/
@@ -82,6 +85,7 @@ WORKDIR /var/www/html
 # Cleanup
 RUN set -ex; \
 	\
+	apt-get update; \
 	apt-get install --no-install-recommends -y \
 		dirmngr \
 		gnupg \
@@ -103,6 +107,7 @@ RUN set -ex; \
 	echo "$WORDPRESS_CLI_SHA512 */usr/local/bin/wp" | sha512sum -c -; \
 	chmod +x /usr/local/bin/wp; \
 	\
+	apt-get clean; \
 	rm -rf /var/lib/apt/lists/*; \
 	\
 	wp --allow-root --version

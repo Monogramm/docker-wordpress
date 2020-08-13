@@ -55,8 +55,11 @@ RUN set -ex; \
 	docker-php-ext-enable \
 		apcu \
 		memcached \
+	; \
 	 \
-	&& chown www-data:www-data /var/www /var/www/html
+	chown www-data:www-data /var/www /var/www/html; \
+	apt-get clean; \
+	rm -rf /var/lib/apt/lists/*
 
 
 # https://make.wordpress.org/cli/2018/05/31/gpg-signature-change/
@@ -75,6 +78,7 @@ WORKDIR /var/www/html
 # Cleanup
 RUN set -ex; \
 	\
+	apt-get update; \
 	apt-get install --no-install-recommends -y \
 		dirmngr \
 		gnupg \
@@ -96,6 +100,7 @@ RUN set -ex; \
 	echo "$WORDPRESS_CLI_SHA512 */usr/local/bin/wp" | sha512sum -c -; \
 	chmod +x /usr/local/bin/wp; \
 	\
+	apt-get clean; \
 	rm -rf /var/lib/apt/lists/*; \
 	\
 	wp --allow-root --version
