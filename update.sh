@@ -48,7 +48,7 @@ variants=(
 	fpm-alpine
 )
 
-min_version='5.1'
+min_version='5.2'
 
 
 # version_greater_or_equal A B returns whether A >= B

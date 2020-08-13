@@ -1,4 +1,4 @@
-FROM wordpress:5.1-php7.3-fpm
+FROM wordpress:5.5-php7.2-fpm
 
 LABEL maintainer="Monogramm maintainers <opensource at monogramm dot io>"
 

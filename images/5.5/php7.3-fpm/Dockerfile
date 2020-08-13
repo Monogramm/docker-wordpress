@@ -1,4 +1,4 @@
-FROM wordpress:5.1-php7.3-apache
+FROM wordpress:5.5-php7.3-fpm
 
 LABEL maintainer="Monogramm maintainers <opensource at monogramm dot io>"
 
@@ -55,14 +55,7 @@ RUN set -ex; \
 	docker-php-ext-enable \
 		apcu \
 		memcached \
-	&& a2enmod headers remoteip ;\
-    {\
-      echo RemoteIPHeader X-Real-IP ;\
-      echo RemoteIPTrustedProxy 10.0.0.0/8 ;\
-      echo RemoteIPTrustedProxy 172.16.0.0/12 ;\
-      echo RemoteIPTrustedProxy 192.168.0.0/16 ;\
-    } > /etc/apache2/conf-available/remoteip.conf;\
-    a2enconf remoteip \
+	 \
 	&& chown www-data:www-data /var/www /var/www/html
 
 
@@ -109,4 +102,4 @@ RUN set -ex; \
 
 # ENTRYPOINT resets CMD
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["apache2-foreground"]
+CMD ["php-fpm"]
