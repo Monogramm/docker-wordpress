@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.12
 
 COPY docker_test.sh /docker_test.sh
 
