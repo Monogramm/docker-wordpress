@@ -57,7 +57,7 @@ function version_greater_or_equal() {
 	[[ "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1" || "$1" == "$2" ]];
 }
 
-php_versions=( "7.3" "7.4" )
+php_versions=( "7.3" )
 
 dockerRepo="monogramm/docker-wordpress"
 echo "retrieve automatically the latest versions..."
@@ -110,6 +110,11 @@ for latest in "${latests[@]}"; do
 					s/%%WORDPRESS_CLI_VERSION%%/'"${cliVersion}"'/g;
 					s/%%WORDPRESS_CLI_SHA512%%/'"${cliSha512}"'/g;
 				' "$dir/Dockerfile"
+
+				sed -ri -e '
+					s|DOCKER_TAG=.*|DOCKER_TAG='"$version"'|g;
+					s|DOCKER_REPO=.*|DOCKER_REPO='"$dockerRepo"'|g;
+				' "$dir/hooks/run"
 
 				# Create a list of "alias" tags for DockerHub post_push
 				if [ "$latest" = "$dockerLatest" ]; then

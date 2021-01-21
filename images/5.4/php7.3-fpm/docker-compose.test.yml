@@ -18,7 +18,12 @@ services:
       - /etc/timezone:/etc/timezone:ro
 
   wordpress:
-    build: ./
+    build:
+      context: .
+      dockerfile: ${DOCKERFILE_PATH}
+      args:
+        - TAG=${DOCKER_TAG}
+    image: ${IMAGE_NAME}
     container_name: wordpress
     #restart: always
     depends_on:
