@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# See documentation for details:
+# https://docs.docker.com/docker-hub/builds/advanced/
+
+#### this is not the best practice to put password in a git repository
+#### so please be super careful with your code and docker-image
+#### PLEASE MAKE SURE YOUR REPOSITORY IN BOTH GITHUB AND DOCKERHUB IS SET TO PRIVATE
+
+docker build \
+    --build-arg "TAG=${DOCKER_TAG}" \
+    --build-arg "VCS_REF=$(git rev-parse --short HEAD)" \
+    --build-arg "BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" \
+    -f "$DOCKERFILE_PATH" \
+    -t "$IMAGE_NAME" .

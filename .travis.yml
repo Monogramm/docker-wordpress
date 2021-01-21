@@ -12,15 +12,18 @@ branches:
 
 before_install:
   - env | sort
-  - export name="wordpress"
-  - export image="monogramm/docker-wordpress:${VERSION}${PHP_VERSION:+-$PHP_VERSION}${VARIANT:+-$VARIANT}"
-  - export home=$(pwd)
-  - export dir="${home}/images/${VERSION}/php${PHP_VERSION}-${VARIANT}"
+  - export src_dir=$(pwd)
+  - export dir="${src_dir}/images/${VERSION}/php${PHP_VERSION}-${VARIANT}"
+  - export DOCKER_REPO=monogramm/docker-wordpress
+  - export DOCKERFILE_PATH=Dockerfile
+  - export DOCKER_TAG=$VERSION-$VARIANT-travis
+  - export IMAGE_NAME=${DOCKER_REPO}:${DOCKER_TAG}
 
 install:
   - cd "$dir"
   # Test container build
-  - travis_retry docker build -t "$image" "$dir"
+  - docker build --build-arg "TAG=${DOCKER_TAG}" --build-arg "VCS_REF=$(git rev-parse --short HEAD)" --build-arg "BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" -f "$DOCKERFILE_PATH" -t "$IMAGE_NAME" .
+  #- docker-compose build
 
 before_script:
   - docker images
@@ -28,11 +31,11 @@ before_script:
 script:
   - cd "$dir"
   # Test container run (docker)
-  - docker run --name "$name" -d "$image"
-  - docker ps
-  - docker logs "$name"
-  - docker stop "$name"
-  - docker rm -f -v "$name"
+  #- docker run --name "app" -d "$IMAGE_NAME"
+  #- docker ps
+  #- docker logs "app"
+  #- docker stop "app"
+  #- docker rm -f -v "app"
   # Test container run (docker-compose)
   - travis_retry docker-compose up -d && sleep 20
   - docker-compose ps
@@ -70,27 +73,15 @@ jobs:
     - env: VERSION=5.2 PHP_VERSION=7.3 VARIANT=apache
 
 env: # Environments
-    - VERSION=5.2 PHP_VERSION=7.3 VARIANT=fpm-alpine
-    - VERSION=5.2 PHP_VERSION=7.3 VARIANT=fpm
-    - VERSION=5.2 PHP_VERSION=7.3 VARIANT=apache
-    - VERSION=5.2 PHP_VERSION=7.2 VARIANT=fpm-alpine
-    - VERSION=5.2 PHP_VERSION=7.2 VARIANT=fpm
-    - VERSION=5.2 PHP_VERSION=7.2 VARIANT=apache
     - VERSION=5.3 PHP_VERSION=7.3 VARIANT=fpm-alpine
     - VERSION=5.3 PHP_VERSION=7.3 VARIANT=fpm
     - VERSION=5.3 PHP_VERSION=7.3 VARIANT=apache
-    - VERSION=5.3 PHP_VERSION=7.2 VARIANT=fpm-alpine
-    - VERSION=5.3 PHP_VERSION=7.2 VARIANT=fpm
-    - VERSION=5.3 PHP_VERSION=7.2 VARIANT=apache
     - VERSION=5.4 PHP_VERSION=7.3 VARIANT=fpm-alpine
     - VERSION=5.4 PHP_VERSION=7.3 VARIANT=fpm
     - VERSION=5.4 PHP_VERSION=7.3 VARIANT=apache
-    - VERSION=5.4 PHP_VERSION=7.2 VARIANT=fpm-alpine
-    - VERSION=5.4 PHP_VERSION=7.2 VARIANT=fpm
-    - VERSION=5.4 PHP_VERSION=7.2 VARIANT=apache
     - VERSION=5.5 PHP_VERSION=7.3 VARIANT=fpm-alpine
     - VERSION=5.5 PHP_VERSION=7.3 VARIANT=fpm
     - VERSION=5.5 PHP_VERSION=7.3 VARIANT=apache
-    - VERSION=5.5 PHP_VERSION=7.2 VARIANT=fpm-alpine
-    - VERSION=5.5 PHP_VERSION=7.2 VARIANT=fpm
-    - VERSION=5.5 PHP_VERSION=7.2 VARIANT=apache
+    - VERSION=5.6 PHP_VERSION=7.3 VARIANT=fpm-alpine
+    - VERSION=5.6 PHP_VERSION=7.3 VARIANT=fpm
+    - VERSION=5.6 PHP_VERSION=7.3 VARIANT=apache
