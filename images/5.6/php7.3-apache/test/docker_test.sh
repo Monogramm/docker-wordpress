@@ -27,7 +27,7 @@ echo 'Docker tests successful'
 # https://docs.docker.com/docker-hub/builds/automated-testing/
 ################################################################################
 
-# TODO Call PENPOT unit tests?
+# TODO Call App unit tests?
 
 
 ################################################################################

@@ -19,13 +19,6 @@ export DOCKERFILE_PATH=Dockerfile
 export DOCKER_TAG=
 export IMAGE_NAME=${DOCKER_REPO}:${DOCKER_TAG}
 
-#### this is not the best practice to put password in a git repository
-#### so please be super careful with your code and docker-image
-#### PLEASE MAKE SURE YOUR REPOSITORY IN BOTH GITHUB AND DOCKERHUB IS SET TO PRIVATE
-
-export GIT_LOGIN=
-export GIT_PASSWORD=
-
 # Execute hooks in following order
 for hook in pre_build build post_build pre_test test post_test; do
     if [ -f "./hooks/${hook}" ]; then

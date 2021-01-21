@@ -4,6 +4,6 @@
 # https://docs.docker.com/docker-hub/builds/advanced/
 
 echo 'Set permissions for persisted data...'
-mkdir -p '/srv/dokos/dodock/sites' '/srv/dokos/dodock/logs'
-chown "1000:1000" '/srv/dokos/dodock/sites' '/srv/dokos/dodock/logs'
-chmod 777 '/srv/dokos/dodock/sites' '/srv/dokos/dodock/logs'
+mkdir -p '/srv/wordpress/html'
+chown "1000:1000" '/srv/wordpress/html'
+chmod 777 '/srv/wordpress/html'
