@@ -48,7 +48,8 @@ variants=(
 	fpm-alpine
 )
 
-min_version='5.2'
+min_version='5.3'
+dockerLatest='5.6'
 
 
 # version_greater_or_equal A B returns whether A >= B
@@ -56,7 +57,7 @@ function version_greater_or_equal() {
 	[[ "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1" || "$1" == "$2" ]];
 }
 
-php_versions=( "7.2" "7.3" )
+php_versions=( "7.3" "7.4" )
 
 dockerRepo="monogramm/docker-wordpress"
 echo "retrieve automatically the latest versions..."
@@ -91,9 +92,11 @@ for latest in "${latests[@]}"; do
 				template="Dockerfile.${base[$variant]}.template"
 				cp "template/$template" "$dir/Dockerfile"
 
+				cp -r "template/hooks/" "$dir/"
+				cp -r "template/test/" "$dir/"
 				cp "template/.env" "$dir/.env"
 				cp "template/.dockerignore" "$dir/.dockerignore"
-				cp "template/docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml"
+				cp "template/docker-compose.${compose[$variant]}.test.yml" "$dir/docker-compose.test.yml"
 
 				# Replace the variables.
 				sed -ri -e '
@@ -108,6 +111,22 @@ for latest in "${latests[@]}"; do
 					s/%%WORDPRESS_CLI_SHA512%%/'"${cliSha512}"'/g;
 				' "$dir/Dockerfile"
 
+				# Create a list of "alias" tags for DockerHub post_push
+				if [ "$latest" = "$dockerLatest" ]; then
+					if [ "$variant" = 'apache' ]; then
+						echo "$latest-$variant $variant $latest " > "$dir/.dockertags"
+					else
+						echo "$latest-$variant $variant " > "$dir/.dockertags"
+					fi
+				else
+					if [ "$variant" = 'apache' ]; then
+						echo "$latest-$variant $version-$variant $latest $version " > "$dir/.dockertags"
+					else
+						echo "$latest-$variant $version-$variant " > "$dir/.dockertags"
+					fi
+				fi
+
+				# Add Travis-CI env var
 				travisEnv='\n    - VERSION='"$version"' PHP_VERSION='"$php_version"' VARIANT='"$variant$travisEnv"
 
 				if [[ $1 == 'build' ]]; then

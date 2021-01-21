@@ -1,0 +1,99 @@
+version: "2.3"
+
+services:
+  # https://docs.docker.com/docker-hub/builds/automated-testing/
+  sut:
+    build:
+      context: ./test
+      dockerfile: Dockerfile
+    command: sh /docker_test.sh
+    depends_on:
+      - wordpress
+    environment:
+      - DOCKER_TEST_CONTAINER=wordpress
+    volumes_from:
+      - wordpress
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+  wordpress:
+    build: ./
+    container_name: wordpress
+    #restart: always
+    depends_on:
+      wordpressdb:
+        condition: service_healthy
+    links:
+      - wordpressdb
+    expose:
+      - "80"
+    #ports:
+    #  - "80:80"
+    # To persist WP locally
+    #volumes:
+    #  - /srv/wordpress/html:/var/www/html
+    environment:
+      # Site Config
+      - WORDPRESS_USERNAME=${WORDPRESS_ADMIN_LOGIN}
+      - WORDPRESS_PASSWORD=${WORDPRESS_ADMIN_PWD}
+      - WORDPRESS_EMAIL=admin@${DOMAIN}
+      - WORDPRESS_FIRST_NAME=Admin
+      - WORDPRESS_LAST_NAME=WordPress
+      - WORDPRESS_BLOG_NAME=${WORDPRESS_BLOG_NAME}
+      # DB Config
+      - WORDPRESS_DB_HOST=wordpressdb:3306
+      - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
+      - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PWD}
+      - WORDPRESS_TABLE_PREFIX=${WORDPRESS_TBL_PREFIX}
+      # SMTP Config
+      - SMTP_HOST=wordpressmailer
+      - SMTP_PORT=1025
+      - SMTP_DOMAIN=localhost
+      - SMTP_USER=${WORDPRESS_SMTP_USER}
+      - SMTP_PASSWORD=${WORDPRESS_SMTP_PWD}
+      - SMTP_PROTOCOL=
+
+  wordpressdb:
+    image: mariadb:latest
+    container_name: wordpressdb
+    #restart: always
+    command: --character_set_client=utf8 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --character-set-client-handshake=FALSE
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "--password=${WORDPRESS_DB_ROOT_PWD}",
+        ]
+      timeout: 10s
+      retries: 5
+    expose:
+      - "3306"
+    #ports:
+    #  - "3306:3306"
+    volumes:
+      - /srv/wordpress/db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${WORDPRESS_DB_ROOT_PWD}
+      - MYSQL_DATABASE=${WORDPRESS_DB_NAME}
+      - MYSQL_USER=${WORDPRESS_DB_USER}
+      - MYSQL_PASSWORD=${WORDPRESS_DB_PWD}
+
+  wordpressmailer:
+    image: sj26/mailcatcher:latest
+    hostname: wordpressmailer
+    container_name: wordpressmailer
+    restart: always
+    expose:
+      - 1025
+    ports:
+      - "1080:1080"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
