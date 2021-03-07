@@ -48,7 +48,7 @@ variants=(
 	fpm-alpine
 )
 
-min_version='5.3'
+min_version='5.4'
 dockerLatest='5.6'
 
 
@@ -57,7 +57,7 @@ function version_greater_or_equal() {
 	[[ "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1" || "$1" == "$2" ]];
 }
 
-php_versions=( "7.3" )
+php_versions=( "7.4" )
 
 dockerRepo="monogramm/docker-wordpress"
 echo "retrieve automatically the latest versions..."
@@ -67,7 +67,7 @@ latests=( $( curl -fsSL 'https://api.github.com/repos/WordPress/WordPress/tags' 
 
 # Remove existing images
 echo "reset docker images"
-find ./images -maxdepth 1 -type d -regextype sed -regex '\./images/[[:digit:]]\+\.[[:digit:]]\+' -exec rm -r '{}' \;
+rm -rf ./images/*
 
 echo "update docker images"
 travisEnv=

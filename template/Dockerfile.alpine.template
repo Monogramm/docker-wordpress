@@ -15,6 +15,7 @@ RUN set -ex; \
 		libldap \
 		memcached \
 		mysql-client \
+		oniguruma-dev \
 		unzip \
 		zip \
 	; \
