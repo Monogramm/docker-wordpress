@@ -1,4 +1,4 @@
-FROM wordpress:%%VERSION%%-php%%PHP_VERSION%%-%%VARIANT%%
+FROM wordpress:5.5-php7.4-fpm-alpine
 
 LABEL maintainer="Monogramm maintainers <opensource at monogramm dot io>"
 
@@ -8,34 +8,34 @@ LABEL maintainer="Monogramm maintainers <opensource at monogramm dot io>"
 # Edit permissions of web directories
 RUN set -ex; \
 	\
-	apt-get update; \
-	apt-get install --no-install-recommends -y \
+	apk add --no-cache --update \
+		bash \
 		bzip2 \
-		csstidy \
-		tidy \
+		less \
+		libldap \
+		memcached \
+		mysql-client \
+		oniguruma-dev \
 		unzip \
 		zip \
 	; \
 	mkdir -p /usr/src/php/ext; \
-	apt-get install --no-install-recommends -y \
-		default-mysql-client \
-		less \
-		libcurl4-openssl-dev \
-		libfreetype6-dev \
-		libicu-dev \
-		libjpeg-dev \
-		libldap2-dev \
+	apk add --no-cache --virtual .build-deps \
+		$PHPIZE_DEPS \
+		curl-dev \
+		freetype-dev \
+		icu-dev \
+		jpeg-dev \
+		memcached-dev \
 		libmemcached-dev \
-		libonig-dev \
+		openldap-dev \
 		libpng-dev \
-		libpq-dev \
+		libpq \
 		libxml2-dev \
-		libz-dev \
 		libzip-dev \
 	; \
-	debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)"; \
 	docker-php-ext-configure gd; \
-	docker-php-ext-configure ldap --with-libdir="lib/$debMultiarch"; \
+	docker-php-ext-configure ldap; \
 	docker-php-ext-install -j "$(nproc)" \
 		exif \
 		gd \
@@ -50,17 +50,23 @@ RUN set -ex; \
 		zip \
 	; \
 	pecl install \
-		apcu-%%APCU_VERSION%% \
-		memcached-%%MEMCACHED_VERSION%% \
+		apcu-5.1.18 \
+		memcached-3.1.5 \
 	; \
 	docker-php-ext-enable \
 		apcu \
 		memcached \
-	; \
-	%%VARIANT_EXTRAS%% \
-	chown www-data:www-data /var/www /var/www/html; \
-	apt-get clean; \
-	rm -rf /var/lib/apt/lists/*
+	 \
+	&& chown www-data:www-data /var/www /var/www/html; \
+	\
+	runDeps="$( \
+		scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
+			| tr ',' '\n' \
+			| sort -u \
+			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+	)"; \
+	apk add --virtual .wordpress-phpexts-rundeps $runDeps; \
+	apk del .build-deps
 
 
 # https://make.wordpress.org/cli/2018/05/31/gpg-signature-change/
@@ -70,8 +76,8 @@ RUN set -ex; \
 # sub   rsa2048 2018-05-31 [E]
 ENV WORDPRESS_CLI_GPG_KEY 63AF7AA15067C05616FDDD88A3A2E8F226F0BC06
 
-ARG WORDPRESS_CLI_VERSION=%%WORDPRESS_CLI_VERSION%%
-ARG WORDPRESS_CLI_SHA512=%%WORDPRESS_CLI_SHA512%%
+ARG WORDPRESS_CLI_VERSION=2.4.0
+ARG WORDPRESS_CLI_SHA512=4049c7e45e14276a70a41c3b0864be7a6a8cfa8ea65ebac8b184a4f503a91baa1a0d29260d03248bc74aef70729824330fb6b396336172a624332e16f64e37ef
 
 WORKDIR /var/www/html
 
@@ -79,9 +85,7 @@ WORKDIR /var/www/html
 # Cleanup
 RUN set -ex; \
 	\
-	apt-get update; \
-	apt-get install --no-install-recommends -y \
-		dirmngr \
+	apk add --no-cache --virtual .fetch-deps \
 		gnupg \
 	; \
 	\
@@ -101,11 +105,10 @@ RUN set -ex; \
 	echo "$WORDPRESS_CLI_SHA512 */usr/local/bin/wp" | sha512sum -c -; \
 	chmod +x /usr/local/bin/wp; \
 	\
-	apt-get clean; \
-	rm -rf /var/lib/apt/lists/*; \
+	apk del .fetch-deps; \
 	\
 	wp --allow-root --version
 
 # ENTRYPOINT resets CMD
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["%%CMD%%"]
+CMD ["php-fpm"]

@@ -1,4 +1,4 @@
-FROM wordpress:%%VERSION%%-php%%PHP_VERSION%%-%%VARIANT%%
+FROM wordpress:5.5-php7.4-fpm
 
 LABEL maintainer="Monogramm maintainers <opensource at monogramm dot io>"
 
@@ -50,14 +50,14 @@ RUN set -ex; \
 		zip \
 	; \
 	pecl install \
-		apcu-%%APCU_VERSION%% \
-		memcached-%%MEMCACHED_VERSION%% \
+		apcu-5.1.18 \
+		memcached-3.1.5 \
 	; \
 	docker-php-ext-enable \
 		apcu \
 		memcached \
 	; \
-	%%VARIANT_EXTRAS%% \
+	 \
 	chown www-data:www-data /var/www /var/www/html; \
 	apt-get clean; \
 	rm -rf /var/lib/apt/lists/*
@@ -70,8 +70,8 @@ RUN set -ex; \
 # sub   rsa2048 2018-05-31 [E]
 ENV WORDPRESS_CLI_GPG_KEY 63AF7AA15067C05616FDDD88A3A2E8F226F0BC06
 
-ARG WORDPRESS_CLI_VERSION=%%WORDPRESS_CLI_VERSION%%
-ARG WORDPRESS_CLI_SHA512=%%WORDPRESS_CLI_SHA512%%
+ARG WORDPRESS_CLI_VERSION=2.4.0
+ARG WORDPRESS_CLI_SHA512=4049c7e45e14276a70a41c3b0864be7a6a8cfa8ea65ebac8b184a4f503a91baa1a0d29260d03248bc74aef70729824330fb6b396336172a624332e16f64e37ef
 
 WORKDIR /var/www/html
 
@@ -108,4 +108,4 @@ RUN set -ex; \
 
 # ENTRYPOINT resets CMD
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["%%CMD%%"]
+CMD ["php-fpm"]

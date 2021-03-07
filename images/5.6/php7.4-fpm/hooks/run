@@ -16,7 +16,7 @@ COMMIT_MSG=$(git log -1 --format=%s)
 
 export DOCKER_REPO=monogramm/docker-wordpress
 export DOCKERFILE_PATH=Dockerfile
-export DOCKER_TAG=${VARIANT}
+export DOCKER_TAG=5.6
 export IMAGE_NAME=${DOCKER_REPO}:${DOCKER_TAG}
 
 # Execute hooks in given order
