@@ -15,7 +15,8 @@ services:
       - wordpress
     environment:
       - DOCKER_TEST_CONTAINER=wordpress
-      - DOCKER_WEB_CONTAINER=wordpressnginx
+      # FIXME no answer from curl
+      #- DOCKER_WEB_CONTAINER=wordpressnginx
     volumes_from:
       - wordpress
     volumes:
