@@ -101,7 +101,7 @@ services:
     container_name: wordpressmailer
     restart: always
     expose:
-      - 1025
+      - '1025'
     ports:
       - "1080:1080"
     volumes:

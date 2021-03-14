@@ -42,8 +42,9 @@ if [ -n "${DOCKER_WEB_CONTAINER}" ]; then
         exit 2
     fi
 
-    DOCKER_WEB_CONTAINER_HEALTH_URL=http://${DOCKER_WEB_CONTAINER}:${DOCKER_WEB_PORT:-80}/
+    DOCKER_WEB_CONTAINER_HEALTH_URL=http://${DOCKER_WEB_CONTAINER}:${DOCKER_WEB_PORT:-80}
     log "Checking Health API: ${DOCKER_WEB_CONTAINER_HEALTH_URL}"
+    curl "${DOCKER_WEB_CONTAINER_HEALTH_URL}"
     curl --fail "${DOCKER_WEB_CONTAINER_HEALTH_URL}" | grep -q -e 'Login' || exit 1
 fi
 

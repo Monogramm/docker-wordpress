@@ -11,6 +11,12 @@ cliVersion=2.4.0
 cliSha512="$(curl -fsSL "https://github.com/wp-cli/wp-cli/releases/download/v${cliVersion}/wp-cli-${cliVersion}.phar.sha512")"
 
 
+declare -A conf=(
+	[apache]=''
+	[fpm]='nginx'
+	[fpm-alpine]='nginx'
+)
+
 declare -A compose=(
 	[apache]='apache'
 	[fpm]='fpm'
@@ -97,6 +103,10 @@ for latest in "${latests[@]}"; do
 				cp "template/.env" "$dir/.env"
 				cp "template/.dockerignore" "$dir/.dockerignore"
 				cp "template/docker-compose.${compose[$variant]}.test.yml" "$dir/docker-compose.test.yml"
+
+				if [ -n "${conf[$variant]}" ] && [ -d "template/${conf[$variant]}" ]; then
+					cp -r "template/${conf[$variant]}" "$dir/${conf[$variant]}"
+				fi
 
 				# Replace the variables.
 				sed -ri -e '
