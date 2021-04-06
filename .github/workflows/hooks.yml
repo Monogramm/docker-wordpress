@@ -21,11 +21,17 @@ jobs:
       - name: Check Out Repo
         uses: actions/checkout@v2
 
-      - name: Execute CI hooks
+      - name: Execute CI build hooks
         id: docker_hooks
         run: |
           cd images/${{ matrix.version }}/php${{ matrix.php }}-${{ matrix.variant }}
-          ./hooks/run
+          ./hooks/run build
 
       - name: Display docker images
         run: docker images
+
+      - name: Execute CI test hooks
+        id: docker_test
+        run: |
+          cd images/${{ matrix.version }}/php${{ matrix.php }}-${{ matrix.variant }}
+          ./hooks/run test

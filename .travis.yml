@@ -21,42 +21,16 @@ before_install:
 
 install:
   - cd "$dir"
-  # Test container build
-  - docker build --build-arg "TAG=${DOCKER_TAG}" --build-arg "VCS_REF=$(git rev-parse --short HEAD)" --build-arg "BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" -f "$DOCKERFILE_PATH" -t "$IMAGE_NAME" .
-  #- docker-compose build
+  # Build project
+  - ./hooks/run build
 
 before_script:
   - docker images
 
 script:
   - cd "$dir"
-  # Test container run (docker)
-  #- docker run --name "app" -d "$IMAGE_NAME"
-  #- docker ps
-  #- docker logs "app"
-  #- docker stop "app"
-  #- docker rm -f -v "app"
-  # Test container run (docker-compose)
-  - travis_retry docker-compose up -d && sleep 20
-  - docker-compose ps
-  - docker-compose logs "wordpressdb"
-  - docker-compose ps "wordpressdb" | grep "Up" || exit 1
-  - docker-compose logs "wordpress"
-  - docker-compose ps "wordpress" | grep "Up" || exit 1
-  - echo 'Wait until sites and apps database installed (4-5 minutes)' && sleep 300
-  - docker-compose ps
-  - docker-compose logs "wordpressdb"
-  - docker-compose ps "wordpressdb" | grep "Up"
-  - docker-compose logs "wordpress"
-  - docker-compose ps "wordpress" | grep "Up"
-  # Test container restart
-  - docker-compose down
-  - travis_retry docker-compose up -d && sleep 20
-  - docker-compose ps
-  - docker-compose logs "wordpressdb"
-  - docker-compose ps "wordpressdb" | grep "Up"
-  - docker-compose logs "wordpress"
-  - docker-compose ps "wordpress" | grep "Up"
+  # Execute project CI Tests
+  - ./hooks/run test
 
 notifications:
   email: false
