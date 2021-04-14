@@ -23,21 +23,19 @@ WordPress is open source software you can use to create a beautiful website, blo
 
 <https://hub.docker.com/r/monogramm/docker-wordpress/>
 
--   Wordpress 5.7
-    -   `5.7-apache` `5.7` `apache` `latest`
-    -   `5.7-fpm` `fpm`
-
--   Wordpress 5.6
-    -   `5.6-apache` `5.6`
-    -   `5.6-fpm`
-
--   Wordpress 5.5
-    -   `5.5-apache` `5.5`
-    -   `5.5-fpm`
-
--   Wordpress 5.4
-    -   `5.4-apache` `5.4`
-    -   `5.4-fpm`
+Tags:
+-   `images/5.7/php7.4-apache/Dockerfile`: 5.7-apache 5.7-apache 5.7 5.7 <!--+tags-->
+-   `images/5.7/php7.4-fpm/Dockerfile`: 5.7-fpm 5.7-fpm <!--+tags-->
+-   `images/5.7/php7.4-fpm-alpine/Dockerfile`: 5.7-fpm-alpine 5.7-fpm-alpine <!--+tags-->
+-   `images/5.6/php7.4-apache/Dockerfile`: 5.6-apache apache 5.6 latest <!--+tags-->
+-   `images/5.6/php7.4-fpm/Dockerfile`: 5.6-fpm fpm <!--+tags-->
+-   `images/5.6/php7.4-fpm-alpine/Dockerfile`: 5.6-fpm-alpine fpm-alpine <!--+tags-->
+-   `images/5.5/php7.4-apache/Dockerfile`: 5.5-apache 5.5-apache 5.5 5.5 <!--+tags-->
+-   `images/5.5/php7.4-fpm/Dockerfile`: 5.5-fpm 5.5-fpm <!--+tags-->
+-   `images/5.5/php7.4-fpm-alpine/Dockerfile`: 5.5-fpm-alpine 5.5-fpm-alpine <!--+tags-->
+-   `images/5.4/php7.4-apache/Dockerfile`: 5.4-apache 5.4-apache 5.4 5.4 <!--+tags-->
+-   `images/5.4/php7.4-fpm/Dockerfile`: 5.4-fpm 5.4-fpm <!--+tags-->
+-   `images/5.4/php7.4-fpm-alpine/Dockerfile`: 5.4-fpm-alpine 5.4-fpm-alpine <!--+tags-->
 
 ## How to run this image
 
