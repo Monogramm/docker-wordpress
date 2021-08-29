@@ -24,6 +24,9 @@ WordPress is open source software you can use to create a beautiful website, blo
 <https://hub.docker.com/r/monogramm/docker-wordpress/>
 
 Tags:
+-   `images/5.8/php7.4-apache/Dockerfile`: 5.8-apache 5.8-apache 5.8 5.8 <!--+tags-->
+-   `images/5.8/php7.4-fpm/Dockerfile`: 5.8-fpm 5.8-fpm <!--+tags-->
+-   `images/5.8/php7.4-fpm-alpine/Dockerfile`: 5.8-fpm-alpine 5.8-fpm-alpine <!--+tags-->
 -   `images/5.7/php7.4-apache/Dockerfile`: 5.7-apache 5.7-apache 5.7 5.7 <!--+tags-->
 -   `images/5.7/php7.4-fpm/Dockerfile`: 5.7-fpm 5.7-fpm <!--+tags-->
 -   `images/5.7/php7.4-fpm-alpine/Dockerfile`: 5.7-fpm-alpine 5.7-fpm-alpine <!--+tags-->

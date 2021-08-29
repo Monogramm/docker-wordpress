@@ -1,0 +1,6 @@
+# Ignore Travis-CI test files during docker build
+docker-compose.yml
+.dockertags
+.env
+# Ignore DockerHub test files during docker build
+docker-compose.test.yml
