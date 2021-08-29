@@ -54,8 +54,8 @@ variants=(
 	fpm-alpine
 )
 
-min_version='5.4'
-dockerLatest='5.6'
+min_version='5.5'
+dockerLatest='5.8'
 dockerDefaultVariant='apache'
 
 
@@ -143,9 +143,9 @@ for latest in "${latests[@]}"; do
 					fi
 				else
 					if [ "$variant" = "$dockerDefaultVariant" ]; then
-						export DOCKER_TAGS="$latest-$variant $version-$variant $latest $version "
+						export DOCKER_TAGS="$latest-$variant $latest "
 					else
-						export DOCKER_TAGS="$latest-$variant $version-$variant "
+						export DOCKER_TAGS="$latest-$variant "
 					fi
 				fi
 				echo "${DOCKER_TAGS}" > "$dir/.dockertags"
