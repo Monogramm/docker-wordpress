@@ -5,6 +5,7 @@ on:
   pull_request:
   push:
     branches:
+      - main
       - master
       - develop
 
@@ -13,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ['5.4', '5.5', '5.6', '5.7']
+        version: ['5.4', '5.5', '5.6', '5.7', '5.8', ]
         php: ['7.4']
         variant: ['apache', 'fpm', 'fpm-alpine']
 
@@ -35,3 +36,18 @@ jobs:
         run: |
           cd images/${{ matrix.version }}/php${{ matrix.php }}-${{ matrix.variant }}
           ./hooks/run test
+
+      - name: Execute CI push hooks
+        id: docker_push
+        if: ${{ github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' ) }}
+        run: |
+          cd images/${{ matrix.version }}/php${{ matrix.php }}-${{ matrix.variant }}
+          # Export variables to login and push to GitHub Container Registry
+          #export DOCKER_REGISTRY=ghcr.io
+          #export DOCKER_LOGIN=${{ github.repository_owner }}
+          #export DOCKER_PASSWORD=${{ secrets.GITHUB_REGISTRY_TOKEN }}
+          #./hooks/run push
+          # Export variables to login and push to DockerHub Registry
+          export DOCKER_LOGIN=${{ secrets.DOCKERHUB_REGISTRY_LOGIN }}
+          export DOCKER_PASSWORD=${{ secrets.DOCKERHUB_REGISTRY_TOKEN }}
+          ./hooks/run push
