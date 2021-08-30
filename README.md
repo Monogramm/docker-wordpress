@@ -1,7 +1,6 @@
 [![License: AGPL v3][uri_license_image]][uri_license]
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Monogramm/docker-wordpress/Docker%20Image%20CI)](https://github.com/Monogramm/docker-wordpress)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/af9afb1e146f471681d33e0cf2d2fe53)](https://www.codacy.com/gh/Monogramm/docker-wordpress?utm_source=github.com&utm_medium=referral&utm_content=Monogramm/docker-wordpress&utm_campaign=Badge_Grade)
-[![Docker Automated buid](https://img.shields.io/docker/build/monogramm/docker-wordpress.svg)](https://hub.docker.com/r/monogramm/docker-wordpress/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/monogramm/docker-wordpress.svg)](https://hub.docker.com/r/monogramm/docker-wordpress/)
 [![](https://images.microbadger.com/badges/version/monogramm/docker-wordpress.svg)](https://microbadger.com/images/monogramm/docker-wordpress)
 [![](https://images.microbadger.com/badges/image/monogramm/docker-wordpress.svg)](https://microbadger.com/images/monogramm/docker-wordpress)
