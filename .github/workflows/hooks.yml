@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Execute CI build hooks
-        id: docker_hooks
+        id: docker_build
         run: |
           cd images/${{ matrix.version }}/php${{ matrix.php }}-${{ matrix.variant }}
           ./hooks/run build
